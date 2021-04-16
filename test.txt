@@ -1,0 +1,35 @@
+include file=gyumolcsok.txt
+
+node id=main
+	.@kkat=#tag=kultkat .@kterm=#@kkat.id
+	-@Kkat/k?
+	!#tag=viszonyom?weight.kontent.
+	Na, ezt jelentik nekem @kkat/k.
+
+node tag=viszonyom weight=3
+	szeretem @kkat.kontent/t, 
+	különösen @kterm/t
+
+node tag=viszonyom weight=5
+	utálom @kkat/t, 
+	különösen @kterm/t
+
+node tag=kultkat id=konyv
+	a könyv/a a könyvek/k a könyvet/t
+
+node tag=kultkat id=film
+	a film/a a filmek/k a filmet/t
+
+node tag=konyv
+	az olcsó ponyva /a 
+	az olcsó ponyvák /k 
+	az olcsó ponyvát /t
+
+node tag=konyv
+	a regény/a a regények/k a regényt/t
+
+node tag=konyv tag=film
+	a krimi/a a krimik/k a krimit/t 
+
+node tag=film
+	a sorozat/a a sorozatok/k a sorozatot/t
