@@ -1,0 +1,9 @@
+node tag=konyv
+	az olcsó ponyva /a 
+	az olcsó ponyvák /k 
+	az olcsó ponyvát /t
+
+node tag=konyv
+	a szerelmes regény /a
+	a szerelmes regények /k
+	a szerelmes regényt /t

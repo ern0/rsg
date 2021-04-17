@@ -1,4 +1,3 @@
-include file=gyumolcsok.txt
 
 node id=main
 	.@kkat=#tag=kultkat .@kterm=#@kkat.id
@@ -20,10 +19,7 @@ node tag=kultkat id=konyv
 node tag=kultkat id=film
 	a film/a a filmek/k a filmet/t
 
-node tag=konyv
-	az olcsó ponyva /a 
-	az olcsó ponyvák /k 
-	az olcsó ponyvát /t
+include konyv.txt
 
 node tag=konyv
 	a regény/a a regények/k a regényt/t
