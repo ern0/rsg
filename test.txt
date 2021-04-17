@@ -1,11 +1,11 @@
 
 node id=main
 
-	.@media=#media
-	.@mufaj=[key=tag,value=@media].id
+	h:@media=#media
+	h:@mufaj=[key=tag,value=@media].id
 
-	!-@media.k?
-	![k=tag,v=viszonyom,w=weight].text
+	us:@media.k?
+	u:[k=tag,v=viszonyom,w=weight].text
 	Na, ezt jelenti nekem a @media.a.
 
 node tag=viszonyom weight=3
@@ -24,7 +24,7 @@ node tag=media id=konyv
 node tag=media id=film
 	a film
 	k= a filmek
-	t= a filmet/t
+	t= a filmet
 
 include konyv.txt
 

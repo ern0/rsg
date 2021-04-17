@@ -1,0 +1,95 @@
+RSG language description
+========================
+
+The RSG engine is a small program, which provide a simple 
+mechanism for generating high quality random sentences or
+longer texts, selecting randomly from a database.
+
+The goal was to support Hungarian language, which is a
+high bar: it has definite and indefinite articles, 
+difficult inflexions, and lot of exceptions. The engine 
+does not handle any grammar, but provides a simple, but 
+flexible system to solve any issues.
+
+The RSG database is a structured text file, which contains
+node descriptions. Nodes have properties: key-value pairs.
+The engine is simple, it picks the node which's "id" 
+property is "main" - and renders it's "text" property.
+
+The text property may contain not only static text, but 
+references. A reference selects a node, which the engine
+renders, then replaces the reference with the rendered
+text.
+
+A reference can be a node selected earlier, or a randomly
+selected node from a given set, specified by a query on 
+properties. The reference can also specify, whcih property
+of the node should be rendered. There are some prefixes
+to alter text: omit first word (omit article), uppercase 
+first letter (beginning of sentence), or hide it at all
+(selecting node for further use, without rendering).
+
+Node description
+----------------
+
+A node has one header line and zero or more text lines.
+The header line has the word "node" at the column 0,
+followed by property definitions, "key=value" format,
+separated by spaces.
+
+Each text line starts with a whitespace (space or tab),
+then contains static text or references. The whole content
+will be taken as the "text" property's value of the node.
+There is a special format for declaring other than "text"
+property in the text lines, starting it like "tag=".
+
+Examples for normal format:
+
+  node tag=my_drinking_habit
+	  I don't drink at all.
+		I am abstinent.
+
+  node tag=my_drinking_habit
+	  I don't drink too much.
+		Only with friends.
+
+  node tag=my_drinking_habits
+	  I drink often.
+		My fridge is full of vodka.
+	
+Example for short format:
+  
+	node tag=drink_type text=vodka
+	node tag=drink_type text=beer
+	node tag=drink_type text=becherovka
+
+Example for multiple tags in text lines:
+
+  node tag=corporation
+	  Apple
+		prod= computer
+		prods= computers
+		ceo= Steve Jobs
+	
+	node tag=corporation
+		Tesla
+		prod= EV
+		prods= EVs
+		ceo= Elon Musk
+
+The "Apple" and "Tesla" will be the values of the "text"
+property of nodes, respectively.
+
+References
+----------
+
+References are for ..........
+
+  | prefix-list | lvalue | node select |  property  |
+  | (optional)  | (opt.) | (mandatory) | (optional) |
+  |-------------------------------------------------|
+  |      abc:     @name=   [ filter ]     .name     |
+  
+	Examples:
+
+	  u:[key=tag,value=fruit]
