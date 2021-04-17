@@ -1,31 +1,44 @@
 
 node id=main
-	.@kkat=#tag=kultkat .@kterm=#@kkat.id
-	-@Kkat/k?
-	!#tag=viszonyom?weight.kontent.
-	Na, ezt jelentik nekem @kkat/k.
+
+	.@media=#media
+	.@mufaj=[key=tag,value=@media].id
+
+	!-@media.k?
+	![k=tag,v=viszonyom,w=weight].text
+	Na, ezt jelenti nekem a @media.a.
 
 node tag=viszonyom weight=3
-	szeretem @kkat.kontent/t, 
-	különösen @kterm/t
+	szeretem @media.t, 
+	különösen @mufaj.t.
 
 node tag=viszonyom weight=5
-	utálom @kkat/t, 
-	különösen @kterm/t
+	utálom @media.t,
+	különösen @mufaj.t.
 
-node tag=kultkat id=konyv
-	a könyv/a a könyvek/k a könyvet/t
+node tag=media id=konyv
+	a könyv
+	k= a könyvek
+	t= a könyvet
 
-node tag=kultkat id=film
-	a film/a a filmek/k a filmet/t
+node tag=media id=film
+	a film
+	k= a filmek
+	t= a filmet/t
 
 include konyv.txt
 
 node tag=konyv
-	a regény/a a regények/k a regényt/t
+	a regény
+	k= a regények
+	t= a regényt
 
 node tag=konyv tag=film
-	a krimi/a a krimik/k a krimit/t 
+	a krimi
+	k= a krimik
+	t= a krimit
 
 node tag=film
-	a sorozat/a a sorozatok/k a sorozatot/t
+	a sorozat
+	k= a sorozatok
+	t= a sorozatot
