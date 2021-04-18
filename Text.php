@@ -3,13 +3,19 @@ Class Text {
 
 	function __construct($fnam) {
 		$this->fileName = $fnam;
-		$this->lines = [];
+		$this->nodes = [];
+		$this->lastNode = null;
 		$this->base = $this;
 	} // ctor()
 
 
 	function addLine($line) {
-		$this->base->lines[] = $line;
+
+		$node = $this->base->lastNode;
+		if ($node == null) fatal("missing node def");
+
+		$node->procText($line);
+
 	} // addLine()
 
 
@@ -60,15 +66,19 @@ Class Text {
 
 	function processNodeCommand($line) {
 
-		$this->addLine($line);
+		$index = sizeof($this->nodes);
+		$this->nodes[$index] = new Node($line);
+		$this->lastNode = &$this->nodes[$index];
 
 	} // processNodeCommand()
 
 
 	function dump() {
-		foreach ($this->lines as $line) {
-			echo($line . "\n");
+
+		foreach ($this->base->nodes as $node) {
+			$node->dump();
 		}
+
 	} // dump()
 
 } // class Text 

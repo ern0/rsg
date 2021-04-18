@@ -1,9 +1,11 @@
 <?php
 	require("Text.php");
+	require("Node.php");
+
 
 	function fatal($text) {
 
-		echo("FATAL: " . $text);
+		echo("FATAL: " . $text . "\n");
 		die();
 	
 	} // fatal()
