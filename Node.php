@@ -5,20 +5,39 @@ class Node {
 
 		$this->props = [];
 		$this->procHeader($line);
+		$this->lastTextKey = "text";
 
 	} // ctor()
 
 
 	function procHeader($line) {
 
-		$this->addProp("H", $line);
+		$items = explode(" ",$line);
+		foreach ($items as $item) {
+			
+			if ($item == "" || $item == "node") continue;
+			
+			$a = explode("=", $item);
+			$key = $a[0];
+			$value = $a[1];
 
+			$this->addProp($key, $value);
+
+		} // foreach item
+		
 	} // procHeader()
 
 
 	function procText($line) {
 
-		$this->addProp("T", $line);
+		$a = explode(" ", $line);
+		$tag = trim($a[0]);
+		if (substr($tag, -1) == "=") {
+			$this->lastTextKey = substr($tag, 0, -1);
+			$line = trim(substr($line, strlen($tag) + 1));
+		}
+
+		$this->addProp($this->lastTextKey, $line);
 		 
 	} // procText()
 
@@ -36,7 +55,9 @@ class Node {
 				$value = trim($value);
 				$value = str_replace("\r", "	", $value);
 				$value = str_replace("\n", " ", $value);
-				echo("  " . $key . "[" . $index . "] = " . $value . "\n");
+				echo("  " . $key);
+				if (sizeof($values) > 1) echo("[" . $index . "]");
+				echo(" = " . $value . "\n");
 			}
 		}
 
