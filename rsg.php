@@ -1,6 +1,7 @@
 <?php
 	require("Text.php");
 	require("Node.php");
+	require("Renderer.php");
 
 
 	function fatal($text) {
@@ -15,7 +16,10 @@
 
 		$text = new Text("test.txt");
 		$text->load();
-		$text->dump();
+
+		$renderer = new Renderer($text->nodes);
+		$r = $renderer->render("@main");
+		echo($r . "\n");
 
 	} // main()
 
