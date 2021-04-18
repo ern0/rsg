@@ -1,7 +1,7 @@
 <?
 class Renderer {
 
-	function __construct(&$nodes) {
+	function __construct(&$nodess) {
 
 		$this->nodes = $nodes;
 		$this->vars = [];
@@ -44,14 +44,11 @@ class Renderer {
 
 		$this->fullRef = $ref;
 
-		echo("\n" . $this->fullRef . "\n");
-
 		$ref = $this->cutLvalue($ref);
 		$ref = $this->cutNodeSelector($ref);
 		$ref = $this->cutProp($ref);
 		$ref = $this->cutMod($ref);
 
-		echo("  ");
 		echo("LVALUE=" . $this->lvalue . " ");
 		echo("SEL=" . $this->selector . " ");
 		echo("PROP=" . $this->prop . " ");
@@ -73,7 +70,7 @@ class Renderer {
 			$a = explode("#",$ref);
 			if (strchr($a[0],"=")) break;
 
-			return;
+			return $ref;
 		} // while once
 
 		$pos = strpos($ref,'=');
