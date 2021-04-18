@@ -1,11 +1,11 @@
 
 node id=main
 
-	h:@media=#media
-	h:@mufaj=[key=tag,value=@media].id
+	@media=#media!h
+	@mufaj=[key=tag,value=@media.id]!h
 
-	us:@media.k?
-	u:[k=tag,v=viszonyom,w=weight].text
+	@media.k!u?
+	[k=tag,v=viszonyom,w=weight].text!u
 	Na, ezt jelenti nekem a @media.a.
 
 node tag=viszonyom weight=3

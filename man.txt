@@ -85,11 +85,11 @@ References
 
 References are for ..........
 
-  | prefix-list | lvalue | node select |  property  |
-  | (optional)  | (opt.) | (mandatory) | (optional) |
-  |-------------------------------------------------|
-  |      abc:     @name=   [ filter ]     .name     |
+  | lvalue | node select |  property  |  modifier  |
+  | (opt.) | (mandatory) | (optional) | (optional) |
+  |------------------------------------------------|
+  | @name=   [ filter ]     .name     | !xyz       |
   
 	Examples:
 
-	  u:[key=tag,value=fruit]
+	  [key=tag,value=fruit]!u
