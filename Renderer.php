@@ -50,16 +50,22 @@ class Renderer {
 
 	function parseReference($ref) {
 
+//echo("RL:" . $ref . "\n");
 		$ref = $this->cutLvalue($ref);
+//echo("RS:" . $ref . "\n");
 		$ref = $this->cutNodeSelector($ref);
+//echo("RP:" . $ref . "\n");
 		$ref = $this->cutProp($ref);
+//echo("RM:" . $ref . "\n");
 		$ref = $this->cutMod($ref);
+//echo("RZ:" . $ref . "\n");
 
 		if (false) {
-			echo("LVALUE=\"" . $this->lvalue . "\" ");
-			echo("SEL=\"" . $this->selector . "\" ");
-			echo("PROP=\"" . $this->prop . "\" ");
-			echo("MOD=\"" . $this->mod . "\" ");
+			echo("LVALUE=\"" . $this->lvalue . "\" \n");
+			echo("SEL=\"" . $this->selector . "\" \n");
+			echo("PROP=\"" . $this->prop . "\" \n");
+			echo("MOD=\"" . $this->mod . "\" \n");
+			echo("--\n");
 		}
 
 	} // parseReference()
@@ -68,7 +74,7 @@ class Renderer {
 	function cutLvalue($ref) {
 		
 		$this->lvalue = null;
-		if (substr($ref,0,1) != '@') return;
+		if (substr($ref,0,1) != '@') return $ref;
 
 		while (true) {
 
@@ -102,13 +108,18 @@ class Renderer {
 				$charPos = strpos($ref,$char);
 				if ($charPos) $pos = min($pos,$charPos);
 			}
-			$this->selector = substr($ref,0,$pos);
+			if ($firstChar == '@') {
+				$this->selector = "id=" . substr($ref,1,$pos - 1);
+			}		
+			if ($firstChar == '#') {
+				$this->selector = "tag=" . substr($ref,1,$pos - 1);
+			}
 			break;
 
 		case '[':
 			$pos = strpos($ref,']') + 1;
 			if (!$pos) throw new Exception("incomplete node selector \"" . $this->fullRef . "\"");
-			$this->selector = substr($ref,0,$pos);
+			$this->selector = substr($ref,1,$pos - 2);
 			break;
 
 		default:

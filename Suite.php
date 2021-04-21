@@ -33,9 +33,9 @@ Class Suite {
 		echo(
 			"assertion failed: " 
 			. get_class($this)
-			. "/" 
+			. ": " 
 			. $this->case
-			. "/" 
+			. ": " 
 			. $message 
 			. "\n"
 		);		 
@@ -92,15 +92,16 @@ Class Suite {
 		} // foreach cases
 
 		echo(
-			get_class() . " - "
+			"["
+			. ( $this->failedAssertions == 0 ? "okay" : "FAIL" )
+			. "] - "
+			. get_class($this) . " - "
 			. $this->renderNumber("case~: #, ",$this->totalCases)
 			. $this->renderNumber("passed: #, ",$this->passedCases)
 			. $this->renderNumber("failed: #, ",$this->failedCases)
 			. $this->renderNumber("assert~: #, ",$this->totalAssertions)
 			. $this->renderNumber("passed: #, ",$this->passedAssertions)
 			. $this->renderNumber("failed: # ",$this->failedAssertions)
-			. " - "
-			. ( $this->failedAssertions == 0 ? "okay" : "FAIL" )
 			. "\n"
 		);
 
