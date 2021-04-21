@@ -1,15 +1,8 @@
-<?php
+<?
+	require("utils.php");
 	require("Text.php");
 	require("Node.php");
 	require("Renderer.php");
-
-
-	function fatal($text) {
-
-		echo("FATAL: " . $text . "\n");
-		die();
-	
-	} // fatal()
 
 
 	function main() {
