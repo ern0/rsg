@@ -23,6 +23,13 @@ Class Suite {
 		}
 		$this->failedAssertions++;
 
+		$this->reportAssertFail($message);
+
+	} // assert()
+
+
+	function reportAssertFail($message) {
+
 		echo(
 			"assertion failed: " 
 			. get_class($this)
@@ -33,7 +40,19 @@ Class Suite {
 			. "\n"
 		);		 
 
-	} // assert()
+	} // reportAssertFail()
+
+
+	function assertEquals($v1, $v2, $message) {
+
+		$this->assert(
+			$v1 == $v2,
+			$message 
+			. ": should be \"" . $v1 
+			. "\", got \"" . $v2 . "\""
+		);
+
+	} // assertEquals()
 
 
 	function renderNumber($text, $value) {
@@ -57,7 +76,12 @@ Class Suite {
 			$this->case = substr($method,5);
 
 			$f = '$' . "this->" . $method . "();";
-			eval($f);
+			try {
+				eval($f);
+			} catch (Exception $e) {
+				$this->failedAssertions++;
+				$this->reportAssertFail("exception: " . $e->getMessage());
+			}
 
 			if ($preFailed == $this->failedAssertions) {
 				$this->passedCases++;

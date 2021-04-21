@@ -1,7 +1,7 @@
 <?
 class Renderer {
 
-	function __construct(&$nodess) {
+	function __construct(&$nodes) {
 
 		$this->nodes = $nodes;
 		$this->vars = [];
@@ -43,18 +43,26 @@ class Renderer {
 	function renderReference($ref) {
 
 		$this->fullRef = $ref;
+		$this->parseReference($ref);
+
+	} // renderReference()
+
+
+	function parseReference($ref) {
 
 		$ref = $this->cutLvalue($ref);
 		$ref = $this->cutNodeSelector($ref);
 		$ref = $this->cutProp($ref);
 		$ref = $this->cutMod($ref);
 
-		echo("LVALUE=" . $this->lvalue . " ");
-		echo("SEL=" . $this->selector . " ");
-		echo("PROP=" . $this->prop . " ");
-		echo("MOD=" . $this->mod . " ");
+		if (false) {
+			echo("LVALUE=\"" . $this->lvalue . "\" ");
+			echo("SEL=\"" . $this->selector . "\" ");
+			echo("PROP=\"" . $this->prop . "\" ");
+			echo("MOD=\"" . $this->mod . "\" ");
+		}
 
-	} // renderReference()
+	} // parseReference()
 
 
 	function cutLvalue($ref) {
@@ -99,12 +107,12 @@ class Renderer {
 
 		case '[':
 			$pos = strpos($ref,']') + 1;
-			if (!$pos) fatal("incomplete node selector " . $this->fullRef);
+			if (!$pos) throw new Exception("incomplete node selector \"" . $this->fullRef . "\"");
 			$this->selector = substr($ref,0,$pos);
 			break;
 
 		default:
-			fatal("invalid node selector: " . $this->fullRef);
+			throw new Exception("invalid node selector: \"" . $this->fullRef . "\"");
 
 		} // switch firstChar
 
