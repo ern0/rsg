@@ -3,7 +3,7 @@ class Renderer {
 
 	function __construct(&$nodes) {
 
-		$this->nodes = $nodes;
+		$this->nodes = &$nodes;
 		$this->vars = [];
 		$this->result = "";
 
@@ -44,29 +44,24 @@ class Renderer {
 
 		$this->fullRef = $ref;
 		$this->parseReference($ref);
+		$this->createMatchList();
+
+		//selector
+		//lvalue
+
+		//prop
+		//mod
+
 
 	} // renderReference()
 
 
 	function parseReference($ref) {
 
-//echo("RL:" . $ref . "\n");
 		$ref = $this->cutLvalue($ref);
-//echo("RS:" . $ref . "\n");
 		$ref = $this->cutNodeSelector($ref);
-//echo("RP:" . $ref . "\n");
 		$ref = $this->cutProp($ref);
-//echo("RM:" . $ref . "\n");
 		$ref = $this->cutMod($ref);
-//echo("RZ:" . $ref . "\n");
-
-		if (false) {
-			echo("LVALUE=\"" . $this->lvalue . "\" \n");
-			echo("SEL=\"" . $this->selector . "\" \n");
-			echo("PROP=\"" . $this->prop . "\" \n");
-			echo("MOD=\"" . $this->mod . "\" \n");
-			echo("--\n");
-		}
 
 	} // parseReference()
 
@@ -135,14 +130,15 @@ class Renderer {
 	function cutProp($ref) {
 
 		$firstChar = substr($ref,0,1);
-		$pos = strlen($ref);
 
 		if ($firstChar == '.') {
+			$pos = strlen($ref);
 			$charPos = strpos($ref,'!');
-			if ($charPos) $pos = min($pos,$charPos);	
+			if ($charPos) $pos = $charPos;	
 			$this->prop = substr($ref,1,$pos - 1);		
 		} 
 		else {
+			$pos = 0;
 			$this->prop = "text";
 		}
 
@@ -165,6 +161,66 @@ class Renderer {
 		$ref = substr($ref,$pos);
 		return $ref;
 	} // cutMod()
+
+
+	function createMatchList() {
+
+		$this->createMatchListFilters();
+		$this->createMatchListResult();
+
+	} // createMatchList()
+
+
+	function createMatchListFilters() {
+
+		$this->filters = [];
+		$this->weightProp = "weight";
+		$selectorItems = explode(",", $this->selector);
+	
+		foreach ($selectorItems as $selectorItem) {
+
+			$a = explode("=",$selectorItem);
+		
+			if (substr($a[0],0,1) == '%') {
+				$this->weightProp = substr($a[0],1);
+			} 
+			else {
+				$this->filters[$a[0]] = $a[1];
+			}
+
+		} // foreach selector item
+
+	} // crteateMatchListFilters()
+
+
+	function createMatchListResult() {
+
+		$this->matchList = [];
+		foreach ($this->nodes as $node) {
+	
+			$match = false;
+			foreach ($this->filters as $filterKey => $filterValue) {
+
+				$firstChar = substr($filterKey,0,1);				
+				$matchType = true;
+				if (($firstChar == '+') || ($firstChar == '-')) {
+					$filterKey = substr($filterKey,1);
+					if ($firstChar == '-') $matchType = false;
+				}
+
+				if (!array_key_exists($filterKey,$node->props)) continue;
+				
+				foreach ($node->props[$filterKey] as $propIndex => $propValue) {
+					if ($propValue == $filterValue) $match = $matchType;
+				} // foreach node prop item
+
+			} // foreach filter
+
+			if ($match) $this->matchList[] = $node;
+
+		} // foreach node
+
+	} // createMatchListResult()
 
 } // class
 ?>
