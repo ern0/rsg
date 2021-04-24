@@ -1,9 +1,14 @@
 
 
 node id=main
-	A legjobb étel #etel. 
-	Szeretem #etel.t! 
-	#etel!cs for president!
+	@kedvenc=#etel.h
+	A legjobb étel @kedvenc. 
+	Szeretem @kedvenc.t! 
+	@kedvenc!cs for president!
+
+node tag=etel
+	a barack
+	t= a barackot
 
 node tag=etel
 	a lecsó

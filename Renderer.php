@@ -72,6 +72,7 @@ class Renderer {
 
 	function renderAtom($text) {
 		echo($text);
+		$this->renderCounter += strlen($text);
 	} // renderAtom()
 
 
@@ -91,15 +92,7 @@ class Renderer {
 		$this->fullRef = $ref;
 		$ref = $this->parseReference($ref);
 
-		try {
-			$this->createMatchList();
-		} catch (Exception $e) {
-			$this->renderAtom("ERROR(" . $this->selector . ")");
-			return;
-		}
-
 		$this->selectNode();
-		$this->setLvalue();
 
 		$renderer = new Renderer($this->root);
 		if (strchr($this->mod,'m')) $renderer->modMute = true;
@@ -112,11 +105,12 @@ class Renderer {
 			$propList = [];
 		}
 
-		$space = "";
+		$first = true;
+		$renderer->renderCounter = 0;
 		foreach ($propList as $prop) {
-			$renderer->renderWord($space);
-			$space = " ";
+			if (!$first) $renderer->renderWord(" ");
 			$renderer->render($prop);
+			if ($renderer->renderCounter > 0) $first = false;
 		}
 
 		return $ref;
@@ -306,18 +300,46 @@ class Renderer {
 
 	function selectNode() {
 
-		foreach ($this->matchList as $node) break;
+		$this->selectNodeFromCache();
+		if ($this->node != null) return;
 
-		$this->node = $node;///
+		$this->selectNodeFromDb();
+		$this->setLvalue();
 
 	} // selectNode()
+
+
+	function selectNodeFromCache() {
+		
+		$this->node == null;
+		if (substr($this->selector,0,1) != '@') return;
+		$name = substr($this->selector,1);
+		if (!array_key_exists($name,$this->root->vars)) return;
+
+		return $this->root->vars[$name];
+	} // selectNodeFromCache()
+
+
+	function selectNodeFromDb() {
+
+		try {
+			$this->createMatchList();
+		} catch (Exception $e) {
+			$this->renderAtom("ERROR(" . $this->selector . ")");
+			return;
+		}
+
+		foreach ($this->matchList as $node) break;
+		$this->node = $node;///
+
+	} // selectNodeFromDb()
 
 
 	function setLvalue() {
 
 		if ($this->lvalue == "") return;
+		$this->root->vars[$this->lvalue] = &$this->node;
 
-		//echo($this->lvalue . " = " . $this->node->id[0] . "\n");
 	} // setLvalue()
 
 } // class
