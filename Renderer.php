@@ -23,7 +23,10 @@ class Renderer {
 		$text = trim($text);
 		$words = explode(" ", $text);
 		$this->isFirstWord = true;
-		foreach ($words as $word) $this->renderWord($word);
+		foreach ($words as $word) {
+			if (!$this->isFirstWord) $this->renderWord(" ");
+			$this->renderWord($word);
+		}
 
 	} // render()
 
@@ -31,7 +34,8 @@ class Renderer {
 	function renderWord($word) {
 
 		if ($this->isReference($word)) {
-			$this->renderReference($word);
+			$remainder = $this->renderReference($word);
+			$this->renderWord($remainder);
 			return;
 		}
 
@@ -52,7 +56,7 @@ class Renderer {
 			$this->isFirstWord = false;
 		} // if first word
 	
-		$this->renderAtom($word . " ");
+		$this->renderAtom($word);
 
 	} // renderWord()
 
@@ -85,7 +89,7 @@ class Renderer {
 	function renderReference($ref) {
 
 		$this->fullRef = $ref;
-		$this->parseReference($ref);
+		$ref = $this->parseReference($ref);
 
 		try {
 			$this->createMatchList();
@@ -112,6 +116,7 @@ class Renderer {
 			$renderer->render($prop);
 		}
 
+		return $ref;
 	} // renderReference()
 
 
@@ -122,7 +127,22 @@ class Renderer {
 		$ref = $this->cutProp($ref);
 		$ref = $this->cutMod($ref);
 
+		return $ref;
 	} // parseReference()
+
+
+	function findWordEnd($ref) {
+
+		$pos = strlen($ref);
+		$endings = ".!?:;-(){}$/";
+		for ($i = 0; $i < strlen($endings); $i++) {
+			$char = substr($endings,$i,1);
+			$charPos = strpos($ref,$char);
+			if ($charPos) $pos = min($pos,$charPos);
+		}
+		
+		return $pos;
+	} // findWordEnd()
 
 
 	function cutLvalue($ref) {
@@ -157,11 +177,7 @@ class Renderer {
 
 		case '@':
 		case '#':
-			$pos = strlen($ref);
-			foreach (['.','!'] as $char) {
-				$charPos = strpos($ref,$char);
-				if ($charPos) $pos = min($pos,$charPos);
-			}
+			$pos = $this->findWordEnd($ref);
 			if ($firstChar == '@') {
 				$this->selector = "id=" . substr($ref,1,$pos - 1);
 			}		
@@ -187,18 +203,15 @@ class Renderer {
 
 
 	function cutProp($ref) {
+		$pos = 0;
+		$this->prop = "text";
 
-		$firstChar = substr($ref,0,1);
-
-		if ($firstChar == '.') {
-			$pos = strlen($ref);
-			$charPos = strpos($ref,'!');
-			if ($charPos) $pos = $charPos;	
-			$this->prop = substr($ref,1,$pos - 1);		
-		} 
-		else {
-			$pos = 0;
-			$this->prop = "text";
+		if (strlen($ref) != 1) {
+			$firstChar = substr($ref,0,1);
+			if ($firstChar == '.') {
+				$pos = $this->findWordEnd($ref);
+				$this->prop = substr($ref,1,$pos - 1);		
+			} 
 		}
 
 		$ref = substr($ref,$pos);
@@ -207,15 +220,14 @@ class Renderer {
 
 
 	function cutMod($ref) {
+		$this->mod = "";
+
+		if (strlen($ref) == 1) return $ref;
 
 		$firstChar = substr($ref,0,1);
 		$pos = strlen($ref);
 
-		if ($firstChar == '!') {
-			$this->mod = substr($ref,1);
-		} else {
-			$this->mod = "";
-		}
+		if ($firstChar == '!') $this->mod = substr($ref,1);
 
 		$ref = substr($ref,$pos);
 		return $ref;
