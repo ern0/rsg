@@ -234,10 +234,9 @@ class Renderer {
 		$firstChar = substr($ref,0,1);
 		$pos = strlen($ref);
 
-		if ($firstChar == '!') {
-			if (ctype_alpha(substr($ref,1))) {
-				$this->mod = substr($ref,1);
-			}
+		if ( ($firstChar == '!') && (ctype_alpha(substr($ref,1,1))) ) {
+			$pos = $this->findWordEnd(substr($ref,1)) + 1;
+			$this->mod = substr($ref,1,$pos - 1);
 		}
 
 		$ref = substr($ref,$pos);
