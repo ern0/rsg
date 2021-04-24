@@ -1,18 +1,28 @@
 <?
 class Renderer {
 
-	function __construct($root, &$nodes) {
+	function __construct($root, &$nodes = null) {
 
-		if ($root == null) $root = $this;
-		$this->root->nodes = &$nodes;
-		$this->result = "";
+		if ($root == null) {
+			$this->root = &$this;
+			$this->root->nodes = &$nodes;
+		} else {
+			$this->root = $root;
+		}
+
+		$this->modMute = false;
+		$this->modSkipFirstWord = false;
+		$this->modCapitalizeFirstLetter = false;
 
 	} // ctor()
 
 
 	function render($text) {
 
+		$text = str_replace("\t"," ",$text);
+		$text = trim($text);
 		$words = explode(" ", $text);
+		$this->isFirstWord = true;
 		foreach ($words as $word) $this->renderWord($word);
 
 	} // render()
@@ -22,11 +32,43 @@ class Renderer {
 
 		if ($this->isReference($word)) {
 			$this->renderReference($word);
-		} else {
-			$this->result .= $word;
+			return;
 		}
 
+		if ($this->modMute) return;
+
+		if ($this->isFirstWord) {
+
+			if ($this->modSkipFirstWord) {
+				$this->modSkipFirstWord = false;
+				return;
+			}
+
+			if ($this->modCapitalizeFirstLetter) {
+				$this->modCapitalizeFirstLetter = false;
+				$word = $this->capitalize($word);
+			}
+
+			$this->isFirstWord = false;
+		} // if first word
+	
+		$this->renderAtom($word . " ");
+
 	} // renderWord()
+
+
+	function capitalize($word) {
+
+    $firstChar = mb_substr($word, 0, 1, "UTF-8");
+    $remaining = mb_substr($word, 1, null, "UTF-8");
+
+    return mb_strtoupper($firstChar, "UTF-8") . $remaining;
+	} // capitalize()
+
+
+	function renderAtom($text) {
+		echo($text);
+	} // renderAtom()
 
 
 	function isReference($word) {
@@ -44,16 +86,31 @@ class Renderer {
 
 		$this->fullRef = $ref;
 		$this->parseReference($ref);
-		$this->createMatchList();
 
+		try {
+			$this->createMatchList();
+		} catch (Exception $e) {
+			$this->renderAtom("ERROR(" . $this->selector . ")");
+			return;
+		}
 
+		$this->selectNode();
+		$this->setLvalue();
 
-		//selector
-		//lvalue
+		$renderer = new Renderer($this->root);
+		if (strchr($this->mod,'m')) $renderer->modMute = true;
+		if (strchr($this->mod,'s')) $enderer->modSkipFirstWord = true;
+		if (strchr($this->mod,'c')) $enderer->modCapitalizeFirstLetter = true;
 
-		//prop
-		//mod
+		if (array_key_exists($this->prop,$this->node->props)) {
+			$propList = $this->node->props[$this->prop];
+		} else {
+			$propList = [];
+		}
 
+		foreach ($propList as $prop) {
+			$renderer->render($prop);
+		}
 
 	} // renderReference()
 
@@ -222,7 +279,28 @@ class Renderer {
 
 		} // foreach node
 
+		if (sizeof($this->matchList) == 0) {
+			throw new Exception("selector does not match: \"" . $this->fullRef . "\"");
+		}
+
 	} // createMatchListResult()
+
+
+	function selectNode() {
+
+		foreach ($this->matchList as $node) break;
+
+		$this->node = $node;///
+
+	} // selectNode()
+
+
+	function setLvalue() {
+
+		if ($this->lvalue == "") return;
+
+		echo($this->lvalue . " = " . $this->node->id[0] . "\n");
+	} // setLvalue()
 
 } // class
 ?>

@@ -11,7 +11,10 @@
 		$text->load();
 
 		$renderer = new Renderer(null, $text->nodes);
-		echo( $renderer->render("@main") . "\n");
+		$renderer->modCapitalizeFirstLetter = true;
+		$renderer->modSkipFirstWord = true;
+		$renderer->render("@main");
+		echo("\n");
 
 	} // main()
 

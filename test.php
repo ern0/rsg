@@ -140,7 +140,12 @@ Class RsgSuite extends Suite {
 		$this->assertSelected("a,b,c", "d");
 
 		$this->renderer->parseReference("#blue");
-		$this->renderer->createMatchList();
+		try {
+			$this->renderer->createMatchList();
+			$this->assert(false, "#blue: no exception, failed");
+		} catch (Exception $e) {
+			$this->assert(true, "OK");
+		}
 		$this->assertSelected("", "a,b,c,d");
 
 		$this->renderer->parseReference("[size=large]");

@@ -1,5 +1,16 @@
 
+
 node id=main
+	A legjobb étel #etel.
+
+node tag=etel
+	a lecsó
+
+node tag=etel 
+	a sonka
+
+
+node id=example
 
 	@media=#media!h
 	@mufaj=[key=tag,value=@media.id]!h
