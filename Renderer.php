@@ -226,7 +226,11 @@ class Renderer {
 		$firstChar = substr($ref,0,1);
 		$pos = strlen($ref);
 
-		if ($firstChar == '!') $this->mod = substr($ref,1);
+		if ($firstChar == '!') {
+			if (ctype_alpha(substr($ref,1))) {
+				$this->mod = substr($ref,1);
+			}
+		}
 
 		$ref = substr($ref,$pos);
 		return $ref;

@@ -116,6 +116,7 @@ Class RsgSuite extends Suite {
 
 	function test_parse_endings_extra() {
 		$this->parserTest("#search.t." , "", "tag=search", "t", "", "dot-prop");
+		$this->parserTest("@a=[color=red,%w].t!!!" , "a", "color=red,%w", "t", "", "invalid-mod-as-text");
 	}
 
 
