@@ -6,6 +6,7 @@ class Node {
 		$this->props = [];
 		$this->procHeader($line);
 		$this->lastTextKey = "text";
+		$this->selected = false;
 
 	} // ctor()
 

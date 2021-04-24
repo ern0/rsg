@@ -6,13 +6,17 @@ class Renderer {
 		if ($root == null) {
 			$this->root = &$this;
 			$this->root->nodes = &$nodes;
+			$this->root->vars = [];
 		} else {
 			$this->root = $root;
 		}
 
-		$this->modMute = false;
+		$this->modHide = false;
 		$this->modSkipFirstWord = false;
 		$this->modCapitalizeFirstLetter = false;
+
+		$this->space = " ";
+		$this->isAtomRendering = false;
 
 	} // ctor()
 
@@ -22,9 +26,10 @@ class Renderer {
 		$text = str_replace("\t"," ",$text);
 		$text = trim($text);
 		$words = explode(" ", $text);
-		$this->isFirstWord = true;
+
+		$this->renderCounter = 0;
 		foreach ($words as $word) {
-			if (!$this->isFirstWord) $this->renderWord(" ");
+			$this->renderAtom($this->space);
 			$this->renderWord($word);
 		}
 
@@ -35,13 +40,15 @@ class Renderer {
 
 		if ($this->isReference($word)) {
 			$remainder = $this->renderReference($word);
-			$this->renderWord($remainder);
+			$this->space = "";
+			$this->renderAtom($remainder);
+			$this->space = " ";
 			return;
 		}
 
-		if ($this->modMute) return;
+		if ($this->modHide) return;
 
-		if ($this->isFirstWord) {
+		if ($this->renderCounter == 0) {
 
 			if ($this->modSkipFirstWord) {
 				$this->modSkipFirstWord = false;
@@ -53,7 +60,6 @@ class Renderer {
 				$word = $this->capitalize($word);
 			}
 
-			$this->isFirstWord = false;
 		} // if first word
 	
 		$this->renderAtom($word);
@@ -71,8 +77,14 @@ class Renderer {
 
 
 	function renderAtom($text) {
+
+		if (strlen(trim($text))) $this->isAtomRendering = true;
+		if (!$this->isAtomRendering) return;
+		
 		echo($text);
-		$this->renderCounter += strlen($text);
+
+		$this->renderCounter += strlen(trim($text));
+
 	} // renderAtom()
 
 
@@ -91,27 +103,25 @@ class Renderer {
 
 		$this->fullRef = $ref;
 		$ref = $this->parseReference($ref);
-
 		$this->selectNode();
 
 		$renderer = new Renderer($this->root);
-		if (strchr($this->mod,'m')) $renderer->modMute = true;
+		if (strchr($this->mod,'h')) $renderer->modHide = true;
 		if (strchr($this->mod,'s')) $renderer->modSkipFirstWord = true;
 		if (strchr($this->mod,'c')) $renderer->modCapitalizeFirstLetter = true;
 
-		if (array_key_exists($this->prop,$this->node->props)) {
+		if (
+				($this->node->props != null) 
+				&& 
+				(array_key_exists($this->prop,$this->node->props))
+		) {
 			$propList = $this->node->props[$this->prop];
 		} else {
 			$propList = [];
 		}
 
-		$first = true;
-		$renderer->renderCounter = 0;
-		foreach ($propList as $prop) {
-			if (!$first) $renderer->renderWord(" ");
-			$renderer->render($prop);
-			if ($renderer->renderCounter > 0) $first = false;
-		}
+		$prop = join("", $propList);
+		$renderer->render($prop);
 
 		return $ref;
 	} // renderReference()
@@ -169,7 +179,8 @@ class Renderer {
 	function cutNodeSelector($ref) {
 
 		$firstChar = substr($ref,0,1);
-
+		$this->selectorType = ( $firstChar == '@' ? '@' : '#' );
+	
 		switch ($firstChar) {
 
 		case '@':
@@ -234,6 +245,14 @@ class Renderer {
 	} // cutMod()
 
 
+	function setLvalue() {
+
+		if ($this->lvalue == "") return;
+		$this->root->vars[$this->lvalue] = $this->node;
+
+	} // setLvalue()
+
+
 	function createMatchList() {
 
 		$this->createMatchListFilters();
@@ -267,7 +286,7 @@ class Renderer {
 	function createMatchListResult() {
 
 		$this->matchList = [];
-		foreach ($this->root->nodes as $node) {
+		foreach ($this->root->nodes as $index => $node) {
 	
 			$match = false;
 			foreach ($this->filters as $filterKey => $filterValue) {
@@ -287,7 +306,7 @@ class Renderer {
 
 			} // foreach filter
 
-			if ($match) $this->matchList[] = $node;
+			if ($match) $this->matchList[$index] = $node;
 
 		} // foreach node
 
@@ -300,9 +319,10 @@ class Renderer {
 
 	function selectNode() {
 
+		$this->node = null;
+
 		$this->selectNodeFromCache();
 		if ($this->node != null) return;
-
 		$this->selectNodeFromDb();
 		$this->setLvalue();
 
@@ -311,12 +331,15 @@ class Renderer {
 
 	function selectNodeFromCache() {
 		
-		$this->node == null;
-		if (substr($this->selector,0,1) != '@') return;
-		$name = substr($this->selector,1);
+		if ($this->selectorType != '@') return;
+		$a = explode("=",$this->selector);
+		$name = $a[1];
+
+		if ($this->root->vars == null) return;
 		if (!array_key_exists($name,$this->root->vars)) return;
 
-		return $this->root->vars[$name];
+		$this->node = $this->root->vars[$name];
+
 	} // selectNodeFromCache()
 
 
@@ -329,18 +352,17 @@ class Renderer {
 			return;
 		}
 
-		foreach ($this->matchList as $node) break;
-		$this->node = $node;///
+		foreach ($this->matchList as $index => $node) {
+			//echo("$index - $node->selected \n");
+		}
+	
+		if (selectorType == '#') {
+			$this->root->nodes[$index]->selected = true;
+		}
+		$this->node = $this->root->nodes[$index];
 
 	} // selectNodeFromDb()
 
-
-	function setLvalue() {
-
-		if ($this->lvalue == "") return;
-		$this->root->vars[$this->lvalue] = &$this->node;
-
-	} // setLvalue()
 
 } // class
 ?>
