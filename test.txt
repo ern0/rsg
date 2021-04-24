@@ -1,7 +1,9 @@
 
 
 node id=main
-	A legjobb étel #etel. Szeretem #etel.t.
+	A legjobb étel #etel. 
+	Szeretem #etel.t! 
+	#etel!cs for president!
 
 node tag=etel
 	a lecsó

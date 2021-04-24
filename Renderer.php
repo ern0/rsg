@@ -112,7 +112,10 @@ class Renderer {
 			$propList = [];
 		}
 
+		$space = "";
 		foreach ($propList as $prop) {
+			$renderer->renderWord($space);
+			$space = " ";
 			$renderer->render($prop);
 		}
 
@@ -314,7 +317,7 @@ class Renderer {
 
 		if ($this->lvalue == "") return;
 
-		echo($this->lvalue . " = " . $this->node->id[0] . "\n");
+		//echo($this->lvalue . " = " . $this->node->id[0] . "\n");
 	} // setLvalue()
 
 } // class
