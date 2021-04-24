@@ -1,10 +1,10 @@
 <?
 class Renderer {
 
-	function __construct(&$nodes) {
+	function __construct($root, &$nodes) {
 
-		$this->nodes = &$nodes;
-		$this->vars = [];
+		if ($root == null) $root = $this;
+		$this->root->nodes = &$nodes;
 		$this->result = "";
 
 	} // ctor()
@@ -45,6 +45,8 @@ class Renderer {
 		$this->fullRef = $ref;
 		$this->parseReference($ref);
 		$this->createMatchList();
+
+
 
 		//selector
 		//lvalue
@@ -196,7 +198,7 @@ class Renderer {
 	function createMatchListResult() {
 
 		$this->matchList = [];
-		foreach ($this->nodes as $node) {
+		foreach ($this->root->nodes as $node) {
 	
 			$match = false;
 			foreach ($this->filters as $filterKey => $filterValue) {

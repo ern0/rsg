@@ -10,7 +10,7 @@
 		$text = new Text("test.txt");
 		$text->load();
 
-		$renderer = new Renderer($text->nodes);
+		$renderer = new Renderer(null, $text->nodes);
 		echo( $renderer->render("@main") . "\n");
 
 	} // main()

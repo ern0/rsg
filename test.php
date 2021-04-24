@@ -12,7 +12,7 @@ Class RsgSuite extends Suite {
 
 	function parserTest($ref, $lvalue, $sel, $prop, $mod, $message) {
 
-		$renderer = new Renderer($nodes = []);
+		$renderer = new Renderer($null, $nodes = []);
 		$renderer->parseReference($ref);
 
 		if ($prop == "") $prop = "text";
@@ -28,7 +28,7 @@ Class RsgSuite extends Suite {
 	function createRenderer() {
 
 		$this->nodes = [];
-		$this->renderer = new Renderer($this->nodes);
+		$this->renderer = new Renderer(null, $this->nodes);
 	
 	} // createRenderer()
 
@@ -45,11 +45,13 @@ Class RsgSuite extends Suite {
 	function assertSelected($positive, $negative = "") {
 
 		$positive = str_replace(",", "][", $positive);
-		$positive = "[" . $positive . "]";
-		$negative = str_replace(",", "][", $negative);
-		$negative = "[" . $negative . "]";
+		if (strlen($positive)) $positive = "[" . $positive . "]";
+		$pos = $positive;
 
+		$negative = str_replace(",", "][", $negative);
+		if (strlen($negative)) $negative = "[" . $negative . "]";
 		$neg = $negative;
+
 		foreach ($this->renderer->matchList as $node) {
 			$positive = str_replace("[" . $node->props["id"][0] . "]", "", $positive);
 			$negative = str_replace("[" . $node->props["id"][0] . "]", "", $negative);
@@ -57,7 +59,7 @@ Class RsgSuite extends Suite {
 
 		$message = "selector \"" . $this->renderer->selector . "\"";
 		$this->assert($positive == "", $message . ": positive miss: " . $positive);
-		$this->assert($negative == $neg, $message . ": negative miss: " , $negative);
+		$this->assert($negative == $neg, $message . ": negative miss: " , $neg);
 
 	} // assertSelectedAndNot()
 
@@ -125,7 +127,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function atest_selector_prop() {
+	function test_selector_prop() {
 
 		$this->createRenderer();
 		$this->createNode("id=a tag=car size=large color=blue");
