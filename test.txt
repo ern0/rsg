@@ -1,4 +1,8 @@
-node xid=main
+node id=main
+	@kultura
+	@etelek
+
+node id=etelek
 	@kedvenc=#etel!h
 
 	A legjobb étel @kedvenc!u. 
@@ -19,7 +23,7 @@ node tag=etel id=3
 	t= a sonkát
 
 
-node id=main
+node id=kultura
 
 	@viszony=#viszony!h
 	@media=#media!h
