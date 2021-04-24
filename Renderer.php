@@ -285,7 +285,7 @@ class Renderer {
 	function createMatchListResult() {
 
 		$this->matchList = [];
-		foreach ($this->root->nodes as $index => $node) {
+		foreach ($this->root->nodes as $node) {
 	
 			$match = false;
 			foreach ($this->filters as $filterKey => $filterValue) {
@@ -305,7 +305,7 @@ class Renderer {
 
 			} // foreach filter
 
-			if ($match) $this->matchList[$index] = $node;
+			if ($match) $this->matchList[] = $node;
 
 		} // foreach node
 
@@ -351,14 +351,14 @@ class Renderer {
 			return;
 		}
 
-		foreach ($this->matchList as $index => $node) {
-			//echo("$index - $node->selected \n");
+		// TODO: implement selection
+		foreach ($this->matchList as $node) {
+			if ($node->selected) continue;
+			break;
 		}
 	
-		if (selectorType == '#') {
-			$this->root->nodes[$index]->selected = true;
-		}
-		$this->node = $this->root->nodes[$index];
+		if ($this->selectorType == '#') $node->selected = true;
+		$this->node = $node;
 
 	} // selectNodeFromDb()
 
