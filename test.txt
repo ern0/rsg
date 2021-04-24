@@ -1,13 +1,15 @@
 
 
 node id=main
-	A legjobb étel #etel.
+	A legjobb étel #etel. Szeretem #etel.t.
 
 node tag=etel
 	a lecsó
+	t= a lecsót
 
 node tag=etel 
 	a sonka
+	t= a sonkát
 
 
 node id=example

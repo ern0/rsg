@@ -107,11 +107,15 @@ Class RsgSuite extends Suite {
 		$this->parserTest("@a=@n.x!m", "a", "id=n", "x", "m", "id-full");
 	}
 
-	function test_parse_endings() {
+	function test_parse_endings_simple() {
 		$this->parserTest("#search." , "", "tag=search", "", "", "hash-dot");
 		$this->parserTest("#search?" , "", "tag=search", "", "", "hash-qmark");
 		$this->parserTest("#search!" , "", "tag=search", "", "", "hash-exmark");
 		$this->parserTest("#search:" , "", "tag=search", "", "", "hash-col");
+	}
+
+	function test_parse_endings_extra() {
+		$this->parserTest("#search.t." , "", "tag=search", "t", "", "dot-prop");
 	}
 
 

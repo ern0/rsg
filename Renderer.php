@@ -103,8 +103,8 @@ class Renderer {
 
 		$renderer = new Renderer($this->root);
 		if (strchr($this->mod,'m')) $renderer->modMute = true;
-		if (strchr($this->mod,'s')) $enderer->modSkipFirstWord = true;
-		if (strchr($this->mod,'c')) $enderer->modCapitalizeFirstLetter = true;
+		if (strchr($this->mod,'s')) $renderer->modSkipFirstWord = true;
+		if (strchr($this->mod,'c')) $renderer->modCapitalizeFirstLetter = true;
 
 		if (array_key_exists($this->prop,$this->node->props)) {
 			$propList = $this->node->props[$this->prop];
@@ -205,11 +205,10 @@ class Renderer {
 	function cutProp($ref) {
 		$pos = 0;
 		$this->prop = "text";
-
 		if (strlen($ref) != 1) {
 			$firstChar = substr($ref,0,1);
 			if ($firstChar == '.') {
-				$pos = $this->findWordEnd($ref);
+				$pos = $this->findWordEnd(substr($ref,1)) + 1;
 				$this->prop = substr($ref,1,$pos - 1);		
 			} 
 		}
