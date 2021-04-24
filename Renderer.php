@@ -15,8 +15,8 @@ class Renderer {
 		$this->modSkipFirstWord = false;
 		$this->modCapitalizeFirstLetter = false;
 
-		$this->space = " ";
-		$this->isAtomRendering = false;
+		$this->root->space = " ";
+		$this->root->isAtomRendering = false;
 
 	} // ctor()
 
@@ -29,7 +29,7 @@ class Renderer {
 
 		$this->renderCounter = 0;
 		foreach ($words as $word) {
-			$this->renderAtom($this->space);
+			$this->renderAtom($this->root->space);
 			$this->renderWord($word);
 		}
 
@@ -40,9 +40,11 @@ class Renderer {
 
 		if ($this->isReference($word)) {
 			$remainder = $this->renderReference($word);
-			$this->space = "";
-			$this->renderAtom($remainder);
-			$this->space = " ";
+			if (strlen($remainder)) {
+				$this->root->space = "";
+				$this->renderAtom($remainder);
+				$this->root->space = " ";
+			}
 			return;
 		}
 
@@ -78,8 +80,8 @@ class Renderer {
 
 	function renderAtom($text) {
 
-		if (strlen(trim($text))) $this->isAtomRendering = true;
-		if (!$this->isAtomRendering) return;
+		if (strlen(trim($text))) $this->root->isAtomRendering = true;
+		if (!$this->root->isAtomRendering) return;
 		
 		echo($text);
 
@@ -141,7 +143,7 @@ class Renderer {
 	function findWordEnd($ref) {
 
 		$pos = strlen($ref);
-		$endings = ".!?:;-(){}$/";
+		$endings = ".!?:,;-(){}$/";
 		for ($i = 0; $i < strlen($endings); $i++) {
 			$char = substr($endings,$i,1);
 			$charPos = strpos($ref,$char);

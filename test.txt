@@ -1,4 +1,4 @@
-node id=main
+node xid=main
 	@kedvenc=#etel!h
 
 	A legjobb étel @kedvenc!u. 
@@ -18,44 +18,53 @@ node tag=etel id=3
 	a sonka
 	t= a sonkát
 
-node id=example
 
+node id=main
+
+	@viszony=#viszony!h
 	@media=#media!h
-	@mufaj=[key=tag,value=@media.id]!h
 
-	@media.k!u?
-	[k=tag,v=viszonyom,w=weight].text!u
-	Na, ezt jelenti nekem a @media.a.
+	#mondas
 
-node tag=viszonyom weight=3
-	szeretem @media.t, 
+node tag=viszony text=imádom
+node tag=viszony text=utálom
+
+node tag=mondas
+	@viszony!c 
+	@media.t,
 	különösen @mufaj.t.
+	Na, ezt jelenti nekem @media.
 
-node tag=viszonyom weight=5
-	utálom @media.t,
+node tag=mondas
+	@viszony!c @media.t,
 	különösen @mufaj.t.
+	Na, ezt jelenti nekem a @media.
+	Jaj, de @viszonyom @mufaj.t!
 
-node tag=media id=konyv
-	a könyv
-	k= a könyvek
-	t= a könyvet
 
 node tag=media id=film
+	@mufaj=#film!h
 	a film
 	k= a filmek
 	t= a filmet
 
-include konyv.txt
+node tag=media id=konyv	
+	@mufaj=#konyv!h
+	a könyv
+	k= a könyvek
+	t= a könyvet
 
-node tag=konyv
-	a regény
-	k= a regények
-	t= a regényt
+include konyv.txt
 
 node tag=konyv tag=film
 	a krimi
 	k= a krimik
 	t= a krimit
+
+node tag=konyv
+	a regény
+	k= a regények
+	t= a regényt
 
 node tag=film
 	a sorozat
