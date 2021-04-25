@@ -288,7 +288,10 @@ class Renderer {
 
 		$this->matchList = [];
 		foreach ($this->root->nodes as $node) {
-	
+			
+			if ($node->selected) continue;
+			if ($this->getNodeWeight($node) == 0) continue;
+
 			$match = false;
 			foreach ($this->filters as $filterKey => $filterValue) {
 
@@ -316,6 +319,18 @@ class Renderer {
 		}
 
 	} // createMatchListResult()
+
+
+	function getNodeWeight(&$node) {
+
+		if (array_key_exists($this->weightProp,$node->props)) {
+			$weight = $node->props[$this->weightProp][0];
+		} else {
+			$weight = 100;
+		}
+
+		return $weight;
+	} // getNodeWeight()
 
 
 	function selectNode() {
@@ -353,10 +368,17 @@ class Renderer {
 			return;
 		}
 
-		// TODO: implement selection
+		$sumWeight = 0;
 		foreach ($this->matchList as $node) {
-			if ($node->selected) continue;
-			break;
+			$sumWeight += $this->getNodeWeight($node);
+		}
+
+		$pick = rand(1,$sumWeight);
+
+		$sumWeight = 0;
+		foreach ($this->matchList as $node) {
+			$sumWeight += $this->getNodeWeight($node);
+			if ($pick <= $sumWeight) break;
 		}
 	
 		if ($this->selectorType == '#') $node->selected = true;
