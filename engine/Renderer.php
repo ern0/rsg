@@ -294,25 +294,44 @@ class Renderer {
 			if ($node->selected) continue;
 			if ($this->getNodeWeight($node) == 0) continue;
 
-			$match = false;
+			$result = true;
 			foreach ($this->filters as $filterKey => $filterValue) {
 
-				$firstChar = substr($filterKey,0,1);				
-				$matchType = true;
-				if (($firstChar == '+') || ($firstChar == '-')) {
+				$matchType = substr($filterKey,0,1);				
+				if (($matchType == '+') || ($matchType == '-')) {
 					$filterKey = substr($filterKey,1);
-					if ($firstChar == '-') $matchType = false;
 				}
-
-				if (!array_key_exists($filterKey,$node->props)) continue;
+				if ($matchType != '-') $matchType = '+';
 				
-				foreach ($node->props[$filterKey] as $propIndex => $propValue) {
-					if ($propValue == $filterValue) $match = $matchType;
-				} // foreach node prop item
+				if ($matchType == '-') {
+					$match = true;
+					if (array_key_exists($filterKey,$node->props)) {
+						foreach ($node->props[$filterKey] as $propIndex => $propValue) {
+							if ($propValue == $filterValue) {
+								$match = false;
+								break;
+							}
+						} // foreach node props
+					}
+					$result &= $match;
+				} // if neg
+
+				if ($matchType == '+') {
+					$match = false;
+					if (array_key_exists($filterKey,$node->props)) {
+						foreach ($node->props[$filterKey] as $propIndex => $propValue) {
+							if (($propValue == '*') || ($propValue == $filterValue)) {
+								$match = true;
+								break;
+							}
+						} // foreach node prop item
+					}
+					$result &= $match;
+				} // if pos
 
 			} // foreach filter
 
-			if ($match) $this->matchList[] = $node;
+			if ($result) $this->matchList[] = $node;
 
 		} // foreach node
 
@@ -349,9 +368,13 @@ class Renderer {
 
 	function selectNodeFromCache() {
 		
-		if ($this->selectorType != '@') return;
-		$a = explode("=",$this->selector);
-		$name = $a[1];
+		if ($this->lvalue != "") $name = $this->lvalue;
+
+		if ($name == "") {
+			if ($this->selectorType != '@') return;
+			$a = explode("=",$this->selector);
+			$name = $a[1];
+		}
 
 		if ($this->root->vars == null) return;
 		if (!array_key_exists($name,$this->root->vars)) return;

@@ -1,0 +1,20 @@
+node id=main
+	
+	@area=#area
+	..
+	@area
+
+node tag=area
+	frontend
+	@dev=[tag=devtitle,for=frontend]
+
+node tag=area
+	backend
+	@dev=[tag=devtitle,for=backend]
+
+
+node tag=devtitle for=backend
+	engineer
+
+node tag=devtitle for=*
+	developer

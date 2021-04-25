@@ -1,5 +1,15 @@
 node id=main
-	@kultura
+
+	[sex=girl,lang=en]
+
+node sex=boy lang=en text=allan
+node sex=girl lang=en text=baby
+node sex=boy lang=hu text=csaba
+node sex=girl lang=hu text=dori
+node sex=* lang=en text=joker
+
+
+
 
 node id=etelek
 	@kedvenc=#etel!h

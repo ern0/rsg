@@ -167,7 +167,7 @@ Class RsgSuite extends Suite {
 
 		$this->renderer->parseReference("[size=large,color=red]");
 		$this->renderer->createMatchList();
-		$this->assertSelected("a,d,c", "b");
+		$this->assertSelected("d", "a,b,c");
 
 		$this->renderer->parseReference("[+size=large,-color=red,%w]");
 		$this->renderer->createMatchList();
