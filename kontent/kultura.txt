@@ -1,0 +1,47 @@
+node id=main
+	@etelek
+
+node id=etelek
+	@kedvenc=#etel!h
+
+	A legjobb étel @kedvenc!u. 
+	Szeretem @kedvenc.t.
+	@kedvenc!sc for president!
+	Oké, #etel is jó.
+
+node tag=etel id=1 weight=100
+	a barack
+	t= a barackot
+
+node tag=etel id=2 weight=20
+	a lecsó
+	t= a lecsót
+
+node tag=etel id=3 weight=1
+	a sonka
+	t= a sonkát
+
+
+node id=kultura
+
+	@viszony=#viszony!h
+	@media=#media!h
+
+	#mondas
+
+node tag=viszony text=imádom
+node tag=viszony text=utálom
+
+node tag=mondas
+	@viszony!c 
+	@media.t,
+	különösen @mufaj.t.
+	Na, ezt jelenti nekem @media.
+
+node tag=mondas
+	@viszony!c @media.t,
+	különösen @mufaj.t.
+	Na, ezt jelenti nekem a @media.
+	Jaj, de @viszony @mufaj.t!
+
+include konyv.txt

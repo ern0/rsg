@@ -1,3 +1,3 @@
 #!/bin/bash
 clear
-./test.php
+test/test.php

@@ -24,7 +24,13 @@ Class Text {
 
 	function load() {
 		
-		$file = fopen($this->fileName,"r");
+		$file = @fopen($this->fileName,"r");
+		if (!$file) {
+			$a = explode("/",$this->base->fileName);
+			$a[sizeof($a) - 1] = $this->fileName;
+			$this->fileName = join("/",$a);
+		}
+		$file = @fopen($this->fileName,"r");
 		if (!$file) fatal("file open error: " . $this->fileName);
 		while (!feof($file)) {
 

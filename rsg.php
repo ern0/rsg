@@ -1,13 +1,13 @@
 <?
-	require("utils.php");
-	require("Text.php");
-	require("Node.php");
-	require("Renderer.php");
+	require("engine/utils.php");
+	require("engine/Text.php");
+	require("engine/Node.php");
+	require("engine/Renderer.php");
 
 
 	function main() {
 
-		$text = new Text("test.txt");
+		$text = new Text($_GET["text"]);
 		$text->load();
 
 		$renderer = new Renderer(null, $text->nodes);

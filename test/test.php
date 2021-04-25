@@ -1,10 +1,10 @@
 #!/usr/bin/php
 <?
 
-	require("utils.php");
-	require("Text.php");
-	require("Node.php");
-	require("Renderer.php");
+	require("engine/utils.php");
+	require("engine/Text.php");
+	require("engine/Node.php");
+	require("engine/Renderer.php");
 	require("Suite.php");
 
 Class RsgSuite extends Suite {
