@@ -1,20 +1,43 @@
 node id=main
-	
-	@area=#area
-	..
-	@area
+
+	@seniority=#seniority!h
+
+	#title
+	@seniority.years
+
+
+node tag=title
+	@seniority @area=#area
+
+node tag=seniority text=junior
+	years= 1-3 years
+node tag=seniority text=junior
+	years= at least 1 year
+node tag=seniority text=mid
+	years= 3-5 years
+node tag=seniority text=mid
+	years= 3+ years
+node tag=seniority text=mid
+	years= at least 3 years
+node tag=seniority text=mid
+	years= 2-5 years
+node tag=seniority text=senior
+	years= 5+ years
+node tag=seniority text=senior
+	years= 5-8 years
 
 node tag=area
 	frontend
-	@dev=[tag=devtitle,for=frontend]
+	@dev=[tag=devtitle,for=frontend]!h
 
 node tag=area
 	backend
-	@dev=[tag=devtitle,for=backend]
+	@dev=[tag=devtitle,for=backend]!h
 
-
-node tag=devtitle for=backend
-	engineer
 
 node tag=devtitle for=*
 	developer
+
+node tag=devtitle for=backend for=embedded
+	engineer
+
