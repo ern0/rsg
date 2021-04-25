@@ -249,6 +249,8 @@ class Renderer {
 	function setLvalue() {
 
 		if ($this->lvalue == "") return;
+		if (array_key_exists($this->lvalue,$this->root->vars)) return;
+	
 		$this->root->vars[$this->lvalue] = $this->node;
 
 	} // setLvalue()

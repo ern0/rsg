@@ -2,10 +2,13 @@
 Class Text {
 
 	function __construct($fnam) {
+
+		$this->base = $this;
+
 		$this->fileName = $fnam;
 		$this->nodes = [];
 		$this->lastNode = null;
-		$this->base = $this;
+	
 	} // ctor()
 
 
@@ -26,7 +29,7 @@ Class Text {
 		while (!feof($file)) {
 
 			$line = rtrim(fgets($file));
-			if ($line == "") continue;
+			if (trim($line) == "") continue;
 			if ($this->checkAndProcessCommand($line)) continue;
 
 			$this->addLine($line);
@@ -51,6 +54,8 @@ Class Text {
 			return true;
 		}
 
+		fatal("invalid command: \"" . $a[0] . "\"");
+
 		return false;
 	} // checkAndProcessCommand()
 
@@ -58,7 +63,7 @@ Class Text {
 	function processIncludeCommand($fnam) {
 
 		$inc = new Text($fnam);
-		$inc->base = $this;
+		$inc->base = &$this;
 		$inc->load();
 
 	} // processIncludeCommand()
@@ -66,9 +71,9 @@ Class Text {
 
 	function processNodeCommand($line) {
 
-		$index = sizeof($this->nodes);
-		$this->nodes[$index] = new Node($line);
-		$this->lastNode = &$this->nodes[$index];
+		$index = sizeof($this->base->nodes);
+		$this->base->nodes[$index] = new Node($line);
+		$this->base->lastNode = &$this->base->nodes[$index];
 
 	} // processNodeCommand()
 

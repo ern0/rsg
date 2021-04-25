@@ -1,5 +1,4 @@
 node id=main
-	@etelek
 	@kultura
 
 node id=etelek
@@ -43,34 +42,6 @@ node tag=mondas
 	@viszony!c @media.t,
 	különösen @mufaj.t.
 	Na, ezt jelenti nekem a @media.
-	Jaj, de @viszonyom @mufaj.t!
-
-
-node tag=media id=film
-	@mufaj=#film!h
-	a film
-	k= a filmek
-	t= a filmet
-
-node tag=media id=konyv	
-	@mufaj=#konyv!h
-	a könyv
-	k= a könyvek
-	t= a könyvet
+	Jaj, de @viszony @mufaj.t!
 
 include konyv.txt
-
-node tag=konyv tag=film
-	a krimi
-	k= a krimik
-	t= a krimit
-
-node tag=konyv
-	a regény
-	k= a regények
-	t= a regényt
-
-node tag=film
-	a sorozat
-	k= a sorozatok
-	t= a sorozatot
