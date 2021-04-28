@@ -303,39 +303,10 @@ class Renderer {
 
 			$result = true;
 			foreach ($this->filters as $filterKey => $filterValue) {
-
-				$matchType = substr($filterKey,0,1);				
-				if (($matchType == '+') || ($matchType == '-')) {
-					$filterKey = substr($filterKey,1);
+				if (substr($filterValue,0,1) == '@') {
+					$filterValue = $this->resolveMatchFilterValue($filterValue);
 				}
-				if ($matchType != '-') $matchType = '+';
-				
-				if ($matchType == '-') {
-					$match = true;
-					if (array_key_exists($filterKey,$node->props)) {
-						foreach ($node->props[$filterKey] as $propIndex => $propValue) {
-							if ($propValue == $filterValue) {
-								$match = false;
-								break;
-							}
-						} // foreach node props
-					}
-					$result &= $match;
-				} // if neg
-
-				if ($matchType == '+') {
-					$match = false;
-					if (array_key_exists($filterKey,$node->props)) {
-						foreach ($node->props[$filterKey] as $propIndex => $propValue) {
-							if (($propValue == '*') || ($propValue == $filterValue)) {
-								$match = true;
-								break;
-							}
-						} // foreach node prop item
-					}
-					$result &= $match;
-				} // if pos
-
+				$result &= $this->checkMatch($filterKey,$filterValue,$node);
 			} // foreach filter
 
 			if ($result) $this->matchList[] = $node;
@@ -347,6 +318,52 @@ class Renderer {
 		}
 
 	} // createMatchListResult()
+
+
+	function resolveMatchFilterValue($filterValue) {
+		return $filterValue;
+	} // resolveMatchFilterValue()
+	
+
+	function checkMatch($filterKey,$filterValue,$node) {
+
+		$matchType = substr($filterKey,0,1);				
+		if (($matchType == '+') || ($matchType == '-')) {
+			$filterKey = substr($filterKey,1);
+		}
+		if ($matchType != '-') $matchType = '+';
+		
+		if ($matchType == '-') {
+			return $this->checkNegativeMatch($filterKey,$filterValue,$node);
+		} // if neg 
+		else {
+			return $this->checkPositiveMatch($filterKey,$filterValue,$node);
+		} // else pos
+
+	} // checkMatch()
+
+
+	function checkNegativeMatch($filterKey,$filterValue,$node) {
+
+		if (!array_key_exists($filterKey,$node->props)) return true;
+
+		foreach ($node->props[$filterKey] as $propIndex => $propValue) {
+			if ($propValue == $filterValue) return false;
+		} // foreach node props
+
+		return true;	
+	} // checkNegativeMatch()
+
+
+	function checkPositiveMatch($filterKey,$filterValue,$node) {
+
+		if (!array_key_exists($filterKey,$node->props)) return false;
+		foreach ($node->props[$filterKey] as $propIndex => $propValue) {
+			if (($propValue == '*') || ($propValue == $filterValue)) return true;
+		} // foreach node props
+
+		return false;
+	} // checkPositiveMatch()
 
 
 	function getNodeWeight(&$node) {
