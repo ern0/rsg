@@ -11,9 +11,9 @@ class Renderer {
 			$this->root = $root;
 		}
 
-		$this->modHide = false;
-		$this->modSkipFirstWord = false;
-		$this->modCapitalizeFirstLetter = false;
+		$this->root->modHide = false;
+		$this->root->modSkipFirstWord = false;
+		$this->root->modCapitalizeFirstLetter = false;
 
 		$this->root->space = " ";
 		$this->root->isAtomRendering = false;
@@ -117,8 +117,11 @@ class Renderer {
 		$this->selectNode();
 
 		$renderer = new Renderer($this->root);
+		if ($this->modHide) $renderer->modHide = true;
 		if (strchr($this->mod,'h')) $renderer->modHide = true;
+		if ($this->modSkipFirstWord) $renderer->modSkipFirstWord = true;
 		if (strchr($this->mod,'s')) $renderer->modSkipFirstWord = true;
+		if ($this->modCapitalizeFirstLetter) $renderer->modCapitalizeFirstLetter = true;
 		if (strchr($this->mod,'c')) $renderer->modCapitalizeFirstLetter = true;
 
 		if (
@@ -353,7 +356,7 @@ class Renderer {
 		}
 
 		$node = $this->root->vars[$id];
-		$value = trim($node->props[$prop][0]);
+		$value = strtolower(trim($node->props[$prop][0]));
 
 		return $value;
 	} // resolveMatchFilterValue()

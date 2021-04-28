@@ -1,30 +1,164 @@
 node id=main
+	@seniority=#seniority!h
+	@area=#area!h
+	@lang=[tag=language,area=@area.short]!h
+	@jobtitle=#jobtitle!h
+	@industry=#industry!h
+	
+	<h3> #title </h3>
+	<p> #intro </p>
 
-	C#
-	@area=#area developer ([area=@area.text])
+node tag=title
+	@seniority!c @area @jobtitle
+node tag=title
+	@seniority!c @area @jobtitle (@lang)
+node tag=title
+	@seniority!c @lang @jobtitle
+node tag=title
+	@seniority!c @lang @jobtitle (@area)
+node tag=title
+	@seniority!c #jobtitleuniv
+node tag=title
+	@seniority!c #jobtitleuniv (@lang)
 
+node tag=title
+	@area!c @jobtitle
+node tag=title
+	@area!c @jobtitle (@lang)
+node tag=title
+	@lang!c @jobtitle (@area)
+node tag=title
+	@lang!c @jobtitle
+node tag=title
+	#jobtitleuniv!c
+node tag=title
+	#jobtitleuniv!c (@lang)
 
+node tag=seniority
+	senior
+node tag=seniority
+	#medior
+node tag=seniority
+	junior
+node tag=medior
+	medior
+node tag=medior
+	med.
 
-node tag=area
+node tag=jobtitle
+	developer
+node tag=jobtitle
+	engineer
+node tag=jobtitle weight=5
+	guru
+node tag=jobtitle weight=5
+	ninja
+
+node tag=jobtitleuniv 
+	software developer
+node tag=jobtitleuniv 
+	software engineer
+
+node tag=area short=frontend
 	frontend
-
-node tag=area
+node tag=area short=backend
 	backend
-
-node tag=area
+node tag=area short=fullstack
+	fullstack
+node tag=area short=mobile
 	mobile
+node tag=area short=embedded
+	#embeddedvariant
+node tag=area short=android weight=50
+	Android
+node tag=area short=ios weight=50
+	#iosvariant
 
-node tag=area
+node tag=iosvariant
+	<span/> iOS
+node tag=iosvariant
+	<span/> iPhone
+
+node tag=embeddedvariant
 	embedded
+node tag=embeddedvariant weight=20
+	IOT
 
-node tag=languge area=*
+node tag=language area=frontend area=backend area=fullstack area=mobile
 	JavaScript
-
-node tag=language area=backend area=mobile
+node tag=language area=frontend area=fullstack
+	TypeScript
+node tag=language area=backend area=mobile area=android
 	Java
-
+node tag=language area=android
+	Kotlin
+node tag=language area=ios
+	#objcvariant
 node tag=language area=backend
 	Python
-
 node tag=language area=backend
 	C#
+node tag=language area=backend
+	PHP
+node tag=language area=embedded area=backend
+	#cvariant
+
+node tag=cvariant
+	C
+node tag=cvariant
+	C++
+node tag=cvariant
+	C/C++
+
+node tag=objcvariant
+	Obj-C
+node tag=objcvariant weight=20
+	Obj.C
+node tag=objcvariant
+	Objective-C
+node tag=objcvariant weight=20
+	Objective C
+
+node tag=industry short=automotive
+	automotive
+node tag=industry short=security
+	security
+node tag=industry short=security
+	healthcare
+
+node tag=intro
+	#ourcois!c #leading.
+
+
+
+node tag=ourcois
+	our partner
+node tag=ourcois
+	our company
+node tag=ourcois
+	The company
+
+node tag=leading
+	is a leading provider of @industry solutions
+node tag=leading
+	plays leading role in @industry area
+node tag=leading
+	is a powerful actor in @industry scene
+node tag=leadin
+	is a key player on the emerging @industry market
+
+node
+	Our partner is 
+	a leading 
+	software and hardware 
+	provider 
+	on the emerging Vehicle-to-Vehicle 
+	and Vehicle-to-Infrastructure (V2X) 
+	communication market, 
+	with a mission to 
+	increase traffic safety and efficiency on the road. 
+	Their 
+	Embedded Software Engineer position 
+	gives you a great opportunity to be 
+	part of developing the automotive 
+	technology of the future
