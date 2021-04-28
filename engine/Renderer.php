@@ -1,4 +1,4 @@
-<?
+<?php
 class Renderer {
 
 	function __construct($root, &$nodes = null) {

@@ -1,4 +1,4 @@
-<?
+<?php
 	require("engine/utils.php");
 	require("engine/Text.php");
 	require("engine/Node.php");
