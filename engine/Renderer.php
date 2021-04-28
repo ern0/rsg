@@ -99,6 +99,8 @@ class Renderer {
 
 	function isReference($word) {
 
+		if (strlen($word) < 3) return false;
+
 		$firstChar = substr($word,0,1);
 		if ($firstChar == '@') return true;
 		if ($firstChar == '[') return true;
@@ -303,9 +305,6 @@ class Renderer {
 
 			$result = true;
 			foreach ($this->filters as $filterKey => $filterValue) {
-				if (substr($filterValue,0,1) == '@') {
-					$filterValue = $this->resolveMatchFilterValue($filterValue);
-				}
 				$result &= $this->checkMatch($filterKey,$filterValue,$node);
 			} // foreach filter
 
@@ -320,12 +319,11 @@ class Renderer {
 	} // createMatchListResult()
 
 
-	function resolveMatchFilterValue($filterValue) {
-		return $filterValue;
-	} // resolveMatchFilterValue()
-	
-
 	function checkMatch($filterKey,$filterValue,$node) {
+
+		if (substr($filterValue,0,1) == '@') {
+			$filterValue = $this->resolveMatchFilterValue($filterValue);
+		}
 
 		$matchType = substr($filterKey,0,1);				
 		if (($matchType == '+') || ($matchType == '-')) {
@@ -341,6 +339,24 @@ class Renderer {
 		} // else pos
 
 	} // checkMatch()
+
+
+	function resolveMatchFilterValue($filterValue) {
+
+		$a = explode(".",substr($filterValue,1));
+		$id = trim($a[0]);
+		$prop = trim($a[1]);
+		if ($prop == "") $prop = "text";
+
+		if (!array_key_exists($id,$this->root->vars)) {
+			throw new Exception("Undefined filter value: " . $filterValue);		
+		}
+
+		$node = $this->root->vars[$id];
+		$value = trim($node->props[$prop][0]);
+
+		return $value;
+	} // resolveMatchFilterValue()
 
 
 	function checkNegativeMatch($filterKey,$filterValue,$node) {

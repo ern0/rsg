@@ -1,6 +1,7 @@
 node id=main
 
-	@area=#area developer ([language=@area.text])
+	C#
+	@area=#area developer ([area=@area.text])
 
 
 
@@ -26,3 +27,4 @@ node tag=language area=backend
 	Python
 
 node tag=language area=backend
+	C#
