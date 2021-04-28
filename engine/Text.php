@@ -1,4 +1,4 @@
-<? 
+<?php 
 Class Text {
 
 	function __construct($fnam) {
