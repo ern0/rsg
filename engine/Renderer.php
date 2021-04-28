@@ -48,6 +48,13 @@ class Renderer {
 			return;
 		}
 
+		$braceted = substr($word,1);
+		if ($this->isReference($braceted)) {
+			$this->renderWord(substr($word,0,1));
+			$this->renderWord($braceted);
+			return;
+		}
+
 		if ($this->modHide) return;
 
 		if ($this->renderCounter == 0) {
