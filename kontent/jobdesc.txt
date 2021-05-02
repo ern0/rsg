@@ -1,12 +1,19 @@
+----- main --------------------------------------------------------
 node id=main
+	
 	@seniority=#seniority!h
 	@area=#area!h
 	@lang=[tag=language,area=@area.short]!h
 	@jobtitle=#jobtitle!h
 	@industry=#industry!h
-	
+
+	@lang @lang
+
 	<h3> #title </h3>
 	<p> #intro </p>
+	<p> #tasks </p>
+
+---- title --------------------------------------------------------
 
 node tag=title
 	@seniority!c @area @jobtitle
@@ -20,7 +27,6 @@ node tag=title
 	@seniority!c #jobtitleuniv
 node tag=title
 	@seniority!c #jobtitleuniv (@lang)
-
 node tag=title
 	@area!c @jobtitle
 node tag=title
@@ -37,13 +43,9 @@ node tag=title
 node tag=seniority
 	senior
 node tag=seniority
-	#medior
+	medior
 node tag=seniority
 	junior
-node tag=medior
-	medior
-node tag=medior
-	med.
 
 node tag=jobtitle
 	developer
@@ -67,7 +69,7 @@ node tag=area short=fullstack
 	fullstack
 node tag=area short=mobile
 	mobile
-node tag=area short=embedded
+node tag=area short=embedded                   weight=99999
 	#embeddedvariant
 node tag=area short=android weight=50
 	Android
@@ -75,9 +77,9 @@ node tag=area short=ios weight=50
 	#iosvariant
 
 node tag=iosvariant
-	<span/> iOS
+	iOS
 node tag=iosvariant
-	<span/> iPhone
+	iPhone
 
 node tag=embeddedvariant
 	embedded
@@ -119,17 +121,22 @@ node tag=objcvariant
 node tag=objcvariant weight=20
 	Objective C
 
+---- intro ---------------------------------------------------------
+
+node tag=intro
+	#ourcois!c #leading.
+	#yourrole
+
 node tag=industry short=automotive
 	automotive
 node tag=industry short=security
 	security
-node tag=industry short=security
+node tag=industry short=healthcare
 	healthcare
-
-node tag=intro
-	#ourcois!c #leading.
-
-
+node tag=industry short=manufacturing
+	manufacturing
+node tag=industry short=fashion
+	fashions
 
 node tag=ourcois
 	our partner
@@ -147,18 +154,218 @@ node tag=leading
 node tag=leadin
 	is a key player on the emerging @industry market
 
-node
-	Our partner is 
-	a leading 
-	software and hardware 
-	provider 
-	on the emerging Vehicle-to-Vehicle 
-	and Vehicle-to-Infrastructure (V2X) 
-	communication market, 
-	with a mission to 
-	increase traffic safety and efficiency on the road. 
-	Their 
-	Embedded Software Engineer position 
-	gives you a great opportunity to be 
-	part of developing the automotive 
-	technology of the future
+node tag=title2
+	@jobtitle
+node tag=title2
+	@seniority @jobtitle
+
+node tag=the
+	the
+node tag=the
+	this
+
+node tag=yourrole
+	#the!c
+	#title2
+	#opportunity.
+
+node tag=opportunity
+	#pos
+	#opp 
+	#part
+	#fut
+
+node tag=pos
+	position
+node tag=pos
+	role
+node tag=pos
+	job	
+
+node tag=opp
+	gives you a great opportunity 
+node tag=opp
+	enables you
+node tag=opp
+	makes possible for you
+
+node tag=part
+	to be part of #dev 
+node tag=part
+	to participiate in #dev 
+node tag=part
+	to be the part of
+
+node tag=dev
+	developing
+node tag=dev
+	building
+node tag=dev
+	creating
+node tag=dev
+	changing
+
+node tag=fut
+	@industry technology of the future
+node tag=fut
+	the future of @industry
+node tag=fut
+	@industry future
+node tag=fut
+	future technology
+node tag=fut
+	the modern technology
+node tag=fut
+	the modern technology of @industry
+
+---- tasks --------------------------------------------------------
+
+node tag=tasks
+	#inthisrole!c
+	#youwillwork:
+	#tasklist
+
+node tag=inthisrole
+	in this brand new role
+node tag=inthisrole
+	in this important role
+node tag=inthisrole
+	in this @jobtitle role
+node tag=inthisrole
+	as @lang @jobtitle
+node tag=inthisrole
+	as @lang developer
+node tag=inthisrole
+	as the member of @lang team
+node tag=inthisrole
+	as @lang team member
+
+node tag=youwillwork
+	you will work on exciting tasks
+node tag=youwillwork
+	your tasks will be the following
+node tag=youwillwork
+	your tasks will be
+node tag=youwillwork
+	your will work on
+	
+node tag=tasklist
+	<li> #task </li>
+	<li> #task </li>
+	<li> #task </li>
+	<li> #task </li>
+node tag=tasklist
+	<li> #task </li>
+	<li> #task </li>
+	<li> #task </li>
+
+node tag=task
+	#task1
+node tag=task
+	#task2
+node tag=task
+	#task3
+node tag=task
+	#task4
+node tag=task
+	#task5
+node tag=task
+	#task6
+
+node tag=task1
+	System level integration 
+	of @lang modules on target platforms
+node tag=task1
+	Integrate @lang modules 
+node tag=task1
+	Develop and integrate @lang modules
+node tag=task1
+	Customize @lang modules 
+node tag=task1
+	Customize modules written in @lang
+
+node tag=task2
+	Development and maintenance apps, tools and services
+node tag=task2
+	Development and maintenance of
+	tools and services
+node tag=task2
+	Maintenance of existing apps, tools and services
+node tag=task2
+	Maintenance of existing modules and tools
+
+node tag=task3
+	Manage requests from #others
+node tag=task3
+	Manage feature requests from #others
+node tag=task3
+	Manage change requests from #others
+node tag=task3
+	Manage requests from #others
+
+node tag=others
+	other teams
+node tag=others
+	customers
+node tag=others
+	other teams and customers
+
+node tag=task4
+	Designing and implementing #codeq code
+node tag=task4
+	Creating #codeq code
+node tag=task4
+	Maintain existing and create #codeq code
+
+node tag=codeq
+	high quality, efficient
+node tag=codeq
+	high quality
+node tag=codeq
+	efficient
+node tag=codeq
+	quality
+
+node tag=task5
+	#debug!c #prodissues across services 
+node tag=task5
+	#debug!c #prodissues across multiple levels of the stack
+node tag=task5
+	Improve our engineering standards, tooling, and processes
+node tag=task5
+	Improve our standards, tooling, and processes
+node tag=task5
+	Improve our engineering standards and processes
+
+node tag=debug
+	debug
+node tag=debug
+	identify
+node tag=debug
+	identify and solve
+node tag=debug
+	find
+node tag=debug
+	find and solve
+
+node tag=prodissues
+	production issues
+node tag=prodissues
+	issues
+node tag=prodissues
+	implementation issues
+node tag=prodissues
+	bugs
+node tag=prodissues
+	software bugs
+node tag=prodissues
+	software issues
+
+node tag=task6
+	Design and development of automated software tests
+node tag=task6
+	Design and implementation of unit tests
+node tag=task6
+	Translating business requirements into software design
+node tag=task6
+	Identifying business requirements and translating to software design

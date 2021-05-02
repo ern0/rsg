@@ -33,6 +33,11 @@ class Renderer {
 			$this->renderWord($word);
 		}
 
+		foreach ($this->vars as $var => $value) {
+			echo("$var <br/>");	
+			if ($var == "lang") print_r($this->vars);
+		}
+
 	} // render()
 
 

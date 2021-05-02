@@ -48,8 +48,10 @@ Class Text {
 	function checkAndProcessCommand($line) {
 
 		if (ord($line[0]) <= 32) return false;
+		if (!ctype_alpha($line[0])) return true;
 
 		$a = explode(" ",$line);
+		
 		if ($a[0] == "include") {
 			$this->processIncludeCommand($a[1]);
 			return true;
@@ -62,7 +64,6 @@ Class Text {
 
 		fatal("invalid command: \"" . $a[0] . "\"");
 
-		return false;
 	} // checkAndProcessCommand()
 
 
