@@ -7,7 +7,7 @@ class Renderer {
 			$this->root = &$this;
 			$this->root->nodes = &$nodes;
 			$this->root->vars = [];
-			$this->isDirectRendering = true;
+			$this->root->isDirectRendering = true;
 			$this->root->result = "";
 		} else {
 			$this->root = $root;
@@ -141,7 +141,7 @@ class Renderer {
 			$propList = [];
 		}
 
-		$prop = join("", $propList);
+		$prop = join(" ", $propList);
 		$renderer->render($prop);
 
 		return $ref;
@@ -270,7 +270,7 @@ class Renderer {
 		if ($this->lvalue == "") return;
 		if (array_key_exists($this->lvalue,$this->root->vars)) return;
 	
-		$this->root->vars[$this->lvalue] = $this->node;
+		$this->root->vars[$this->lvalue]["node"] = $this->node;
 
 	} // setLvalue()
 
@@ -362,7 +362,7 @@ class Renderer {
 			throw new Exception("Undefined filter value: " . $filterValue);		
 		}
 
-		$node = $this->root->vars[$id];
+		$node = $this->root->vars[$id]["node"];
 		$value = strtolower(trim($node->props[$prop][0]));
 
 		return $value;
@@ -429,7 +429,7 @@ class Renderer {
 		if ($this->root->vars == null) return;
 		if (!array_key_exists($name,$this->root->vars)) return;
 
-		$this->node = $this->root->vars[$name];
+		$this->node = $this->root->vars[$name]["node"];
 
 	} // selectNodeFromCache()
 

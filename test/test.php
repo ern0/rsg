@@ -186,21 +186,37 @@ Class RsgSuite extends Suite {
 	function test_cache_select() {
 
 		$this->createRenderer();
+
 		$this->createNode("tag=color");
 		$this->addText("#shade green");
-		$this->createNode("tag=color");
-		$this->addText("#shade blue");
 		$this->createNode("tag=shade");
 		$this->addText("#how dark");
 		$this->createNode("tag=how");
 		$this->addText("very");
 
+		$this->createNode("tag=color");
+		$this->addText("#shade blue");
+		$this->createNode("tag=shade");
+		$this->addText("#how dark");
+		$this->createNode("tag=how");
+		$this->addText("light");
+
 		$this->createNode("id=main");
-		$this->addText("@thecolor=#color!h @thecolor");
+		$this->addText("@color1=#color!h");
+		$this->addText("@color2=#color!h");
+		$this->addText("@color1 beats @color2");
 
 		$r = $this->renderer->render("@main");
 		$this->assert(
-			($r == "very dark blue") || ($r == "very dark green")
+			(
+				($r == "very dark blue beats light dark green") 
+				|| 
+				($r == "very dark green beats light dark blue")
+				||
+				($r == "light dark blue beats very dark green") 
+				|| 
+				($r == "light dark green beats very dark blue")
+			)
 			,"cached node does not cache selections: \"" . $r . "\""
 		);	
 	}

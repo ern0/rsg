@@ -53,12 +53,11 @@ class Node {
 		echo("----\n");
 		foreach ($this->props as $key => $values) {
 			foreach ($values as $index => $value) {
-				$value = trim($value);
-				$value = str_replace("\r", "	", $value);
+				$value = str_replace("\r", " ", $value);
 				$value = str_replace("\n", " ", $value);
 				echo("  " . $key);
 				if (sizeof($values) > 1) echo("[" . $index . "]");
-				echo(" = " . $value . "\n");
+				echo(" = \"" . $value . "\"\n");
 			}
 		}
 
