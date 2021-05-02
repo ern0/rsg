@@ -183,7 +183,38 @@ Class RsgSuite extends Suite {
 
 	}
 
-	function test_cache_select() {
+
+	function test_cache_select_shallow() {
+
+		$this->createRenderer();
+
+		$this->createNode("tag=tricolor");
+		$this->addText("#color #color #color");
+
+		$this->createNode("tag=color");
+		$this->addText("r");
+		$this->createNode("tag=color");
+		$this->addText("g");
+		$this->createNode("tag=color");
+		$this->addText("b");
+
+		$this->createNode("id=main");
+		$this->addText("@tricolor=#tricolor!h");
+		$this->addText("@tricolor");
+
+		$r = $this->renderer->render("@main");
+		$this->assert(
+			(
+				($r == "r g b") || ($r == "g b r") || ($r == "b r g")
+				|| 
+				($r == "r b g") || ($r == "b g r") || ($r == "g r b")
+			)
+			,"cached selection issue: \"" . $r . "\""
+		);	
+	}
+
+
+	function test_cache_select_deep() {
 
 		$this->createRenderer();
 
@@ -217,7 +248,7 @@ Class RsgSuite extends Suite {
 				|| 
 				($r == "light dark green beats very dark blue")
 			)
-			,"cached node does not cache selections: \"" . $r . "\""
+			,"cached selection issue: \"" . $r . "\""
 		);	
 	}
 
