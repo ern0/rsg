@@ -29,6 +29,7 @@ Class RsgSuite extends Suite {
 
 		$this->nodes = [];
 		$this->renderer = new Renderer(null, $this->nodes);
+		$this->renderer->isDirectRendering = false;
 	
 	} // createRenderer()
 
@@ -38,8 +39,15 @@ Class RsgSuite extends Suite {
 		$index = sizeof($this->nodes);
 		$this->nodes[$index] = new Node("node " . $props);
 
+		$this->node = &$this->nodes[$index];
+
 		return $this->nodes[$index];
 	} // createNode()
+
+
+	function addText($text) {
+		$this->node->addProp("text",$text);
+	} // addText()
 
 
 	function assertSelected($positive, $negative = "") {
@@ -173,6 +181,28 @@ Class RsgSuite extends Suite {
 		$this->renderer->createMatchList();
 		$this->assertSelected("a", "b,c,d");
 
+	}
+
+	function test_cache_select() {
+
+		$this->createRenderer();
+		$this->createNode("tag=color");
+		$this->addText("#shade green");
+		$this->createNode("tag=color");
+		$this->addText("#shade blue");
+		$this->createNode("tag=shade");
+		$this->addText("#how dark");
+		$this->createNode("tag=how");
+		$this->addText("very");
+
+		$this->createNode("id=main");
+		$this->addText("@thecolor=#color!h @thecolor");
+
+		$r = $this->renderer->render("@main");
+		$this->assert(
+			($r == "very dark blue") || ($r == "very dark green")
+			,"cached node does not cache selections: \"" . $r . "\""
+		);	
 	}
 
 } // class

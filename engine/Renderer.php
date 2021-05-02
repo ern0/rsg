@@ -7,6 +7,8 @@ class Renderer {
 			$this->root = &$this;
 			$this->root->nodes = &$nodes;
 			$this->root->vars = [];
+			$this->isDirectRendering = true;
+			$this->root->result = "";
 		} else {
 			$this->root = $root;
 		}
@@ -33,11 +35,7 @@ class Renderer {
 			$this->renderWord($word);
 		}
 
-		foreach ($this->vars as $var => $value) {
-			echo("$var <br/>");	
-			if ($var == "lang") print_r($this->vars);
-		}
-
+		return $this->root->result;
 	} // render()
 
 
@@ -95,7 +93,11 @@ class Renderer {
 		if (strlen(trim($text))) $this->root->isAtomRendering = true;
 		if (!$this->root->isAtomRendering) return;
 		
-		echo($text);
+		if ($this->root->isDirectRendering) {
+			echo($text);
+		} else {
+			$this->root->result .= $text;
+		}
 
 		$this->renderCounter += strlen(trim($text));
 
@@ -437,7 +439,7 @@ class Renderer {
 		try {
 			$this->createMatchList();
 		} catch (Exception $e) {
-			$this->renderAtom("ERROR(" . $this->selector . ")");
+			$this->renderAtom("ERROR(" . $this->selector . ") ");
 			return;
 		}
 
