@@ -1,4 +1,4 @@
-<?
+<?php
 Class Suite {
 
 	function __construct() {
@@ -68,8 +68,16 @@ Class Suite {
 	function main() {
 		
 		$methods = get_class_methods(get_class($this));
+		$prefix = "test_";
+
 		foreach ($methods as $method) {
-			if (substr($method,0,5) != "test_") continue;
+			if (substr($method,0,5) != "only_") continue;
+			$prefix = "only_";
+			break;
+		}
+
+		foreach ($methods as $method) {
+			if (substr($method,0,strlen($prefix)) != $prefix) continue;
 
 			$this->totalCases++;
 			$preFailed = $this->failedAssertions;
@@ -95,7 +103,9 @@ Class Suite {
 			"["
 			. ( $this->failedAssertions == 0 ? "okay" : "FAIL" )
 			. "] - "
-			. get_class($this) . " - "
+			. get_class($this)
+			. ( $prefix == "only_" ? " (partial)" : "") 
+			. " - "
 			. $this->renderNumber("case~: #, ",$this->totalCases)
 			. $this->renderNumber("passed: #, ",$this->passedCases)
 			. $this->renderNumber("failed: #, ",$this->failedCases)

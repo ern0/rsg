@@ -1,5 +1,5 @@
 #!/usr/bin/php
-<?
+<?php
 
 	require("engine/utils.php");
 	require("engine/Text.php");
@@ -12,7 +12,8 @@ Class RsgSuite extends Suite {
 
 	function parserTest($ref, $lvalue, $sel, $prop, $mod, $message) {
 
-		$renderer = new Renderer($null, $nodes = []);
+		$node = [];
+		$renderer = new Renderer(null, $node);
 		$renderer->parseReference($ref);
 
 		if ($prop == "") $prop = "text";
@@ -148,7 +149,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function test_selector_prop() {
+	function only_test_selector_prop() {
 
 		$this->createRenderer();
 		$this->createNode("id=a tag=car size=large color=blue");
@@ -214,7 +215,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function test_cache_select_deep() {
+	function atest_cache_select_deep() {
 
 		$this->createRenderer();
 
