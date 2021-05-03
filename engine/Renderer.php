@@ -4,21 +4,25 @@ class Renderer {
 	function __construct($root, &$nodes = null) {
 
 		if ($root == null) {
+
 			$this->root = &$this;
 			$this->root->nodes = &$nodes;
 			$this->root->vars = [];
 			$this->root->isDirectRendering = true;
 			$this->root->result = "";
+
 		} else {
+
 			$this->root = $root;
+
 		}
 
-		$this->root->modHide = false;
-		$this->root->modSkipFirstWord = false;
-		$this->root->modCapitalizeFirstLetter = false;
+		$this->modHide = false;
+		$this->modSkipFirstWord = false;
+		$this->modCapitalizeFirstLetter = false;
 
-		$this->root->space = " ";
-		$this->root->isAtomRendering = false;
+		$this->space = " ";
+		$this->isAtomRendering = false;
 
 	} // ctor()
 
@@ -119,7 +123,6 @@ class Renderer {
 
 	function renderReference($ref) {
 
-		$this->fullRef = $ref;
 		$ref = $this->parseReference($ref);
 		$this->selectNode();
 
@@ -149,6 +152,8 @@ class Renderer {
 
 
 	function parseReference($ref) {
+
+		$this->fullRef = $ref;
 
 		$ref = $this->cutLvalue($ref);
 		$ref = $this->cutNodeSelector($ref);
@@ -418,6 +423,7 @@ class Renderer {
 
 	function selectNodeFromCache() {
 		
+		$name = "";
 		if ($this->lvalue != "") $name = $this->lvalue;
 
 		if ($name == "") {
@@ -439,7 +445,7 @@ class Renderer {
 		try {
 			$this->createMatchList();
 		} catch (Exception $e) {
-			$this->renderAtom("ERROR(" . $this->selector . ") ");
+			$this->renderAtom("ERROR(" . $this->selector . ")");
 			return;
 		}
 

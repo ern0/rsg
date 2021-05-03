@@ -12,8 +12,7 @@ Class RsgSuite extends Suite {
 
 	function parserTest($ref, $lvalue, $sel, $prop, $mod, $message) {
 
-		$node = [];
-		$renderer = new Renderer(null, $node);
+		$renderer = new Renderer(null);
 		$renderer->parseReference($ref);
 
 		if ($prop == "") $prop = "text";
@@ -149,7 +148,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function only_test_selector_prop() {
+	function test_selector_prop() {
 
 		$this->createRenderer();
 		$this->createNode("id=a tag=car size=large color=blue");
@@ -185,7 +184,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function test_cache_select_shallow() {
+	function only_test_cache_select_shallow() {
 
 		$this->createRenderer();
 
