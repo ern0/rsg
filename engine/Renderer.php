@@ -39,9 +39,15 @@ class Renderer {
 		$this->renderCounter = 0;
 		$this->root->space = "";
 		foreach ($words as $word) {
+
 			$this->renderAtom($this->root->space);
 			$this->renderWord($word);
-		}
+
+			if ($this->root->isAtomRendering) {
+				$this->root->space = " ";
+			}
+
+		} // foreach word
 
 		return $this->root->result;
 	} // render()
@@ -52,9 +58,10 @@ class Renderer {
 		if ($this->isReference($word)) {
 			$remainder = $this->renderReference($word);
 			if (strlen($remainder)) {
+				$saved = $this->root->space;
 				$this->root->space = "";
 				$this->renderAtom($remainder);
-				$this->root->space = " ";
+				$this->root->space = $saved;
 			}
 			return;
 		}
@@ -84,10 +91,6 @@ class Renderer {
 	
 		$this->renderAtom($word);
 
-		if ($this->root->isAtomRendering) {
-			$this->root->space = " ";
-		}
-
 	} // renderWord()
 
 
@@ -102,7 +105,9 @@ class Renderer {
 
 	function renderAtom($text) {
 
-		if (strlen(trim($text))) $this->root->isAtomRendering = true;
+		if (strlen(trim($text))) {
+			$this->root->isAtomRendering = true;
+		}
 		if (!$this->root->isAtomRendering) return;
 		
 		if ($this->root->isDirectRendering) {
