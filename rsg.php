@@ -56,9 +56,13 @@
 
 
 	function echoHeader($font) {
+
+		header("Content-Type: text/html; charset=utf-8");	
+		
 		echo("<html><head><style>\n");
 		echo("body { font-family: " . $font . "; font-size: 24px;");
 		echo("</style></head><body>\n");
+
 	} // echoHeader()
 
 
