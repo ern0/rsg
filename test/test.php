@@ -37,7 +37,7 @@ Class RsgSuite extends Suite {
 	function createNode($props) {
 
 		$index = sizeof($this->nodes);
-		$this->nodes[$index] = new Node("node " . $props);
+		$this->nodes[$index] = new Node($index, "node " . $props);
 
 		$this->node = &$this->nodes[$index];
 
@@ -184,7 +184,27 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function only_test_cache_select_shallow() {
+	function test_cache_select_simple() {
+
+		$this->createRenderer();
+
+		$this->createNode("id=main");
+		$this->addText("@var=#selectme @var @var");
+
+		$this->createNode("tag=selectme");
+		$this->addText("#subselect");
+
+		$this->createNode("tag=subselect");
+		$this->addText("yep");
+
+		$r = $this->renderer->render("@main");
+
+		$this->assertEquals("yep yep yep", $r, "simple subselect");
+
+	}
+
+
+	function test_cache_select_shallow() {
 
 		$this->createRenderer();
 
@@ -214,7 +234,7 @@ Class RsgSuite extends Suite {
 	}
 
 
-	function atest_cache_select_deep() {
+	function test_cache_select_deep() {
 
 		$this->createRenderer();
 
@@ -251,6 +271,7 @@ Class RsgSuite extends Suite {
 			,"cached selection issue: \"" . $r . "\""
 		);	
 	}
+
 
 } // class
 

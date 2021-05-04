@@ -7,8 +7,6 @@ node id=main
 	@jobtitle=#jobtitle!h
 	@industry=#industry!h
 
-	@lang @lang
-
 	<h3> #title </h3>
 	<p> #intro </p>
 	<p> #tasks </p>
@@ -136,7 +134,7 @@ node tag=industry short=healthcare
 node tag=industry short=manufacturing
 	manufacturing
 node tag=industry short=fashion
-	fashions
+	fashion
 
 node tag=ourcois
 	our partner

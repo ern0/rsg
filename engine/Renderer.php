@@ -8,8 +8,11 @@ class Renderer {
 			$this->root = &$this;
 			$this->root->nodes = &$nodes;
 			$this->root->vars = [];
+			$this->root->refs = [];
 			$this->root->isDirectRendering = true;
 			$this->root->result = "";
+			$this->root->space = "";
+			$this->root->isAtomRendering = false;
 
 		} else {
 
@@ -21,8 +24,8 @@ class Renderer {
 		$this->modSkipFirstWord = false;
 		$this->modCapitalizeFirstLetter = false;
 
-		$this->space = " ";
-		$this->isAtomRendering = false;
+		$this->baseNodeIndex = "root";
+		$this->refIndex = 0;
 
 	} // ctor()
 
@@ -34,6 +37,7 @@ class Renderer {
 		$words = explode(" ", $text);
 
 		$this->renderCounter = 0;
+		$this->root->space = "";
 		foreach ($words as $word) {
 			$this->renderAtom($this->root->space);
 			$this->renderWord($word);
@@ -80,6 +84,10 @@ class Renderer {
 	
 		$this->renderAtom($word);
 
+		if ($this->root->isAtomRendering) {
+			$this->root->space = " ";
+		}
+
 	} // renderWord()
 
 
@@ -123,10 +131,16 @@ class Renderer {
 
 	function renderReference($ref) {
 
-		$ref = $this->parseReference($ref);
-		$this->selectNode();
-
 		$renderer = new Renderer($this->root);
+
+		$ref = $this->parseReference($ref);
+		$this->selectNode();		
+		if ($this->node != null) {
+			$renderer->baseNodeIndex = $this->node->index;
+		} else {
+			$renderer->baseNodeIndex = "error";
+		}
+
 		if ($this->modHide) $renderer->modHide = true;
 		if (strchr($this->mod,'h')) $renderer->modHide = true;
 		if ($this->modSkipFirstWord) $renderer->modSkipFirstWord = true;
@@ -411,17 +425,28 @@ class Renderer {
 
 	function selectNode() {
 
-		$this->node = null;
+		do {
 
-		$this->selectNodeFromCache();
-		if ($this->node != null) return;
-		$this->selectNodeFromDb();
-		$this->setLvalue();
+			$this->node = null;
+
+			$this->selectNodeFromVarCache();
+			if ($this->node != null) break;
+
+			$this->selectNodeFromRefCache();
+			if ($this->node != null) break;
+
+			$this->selectNodeFromDb();
+			$this->setRefCache();
+			$this->setLvalue();
+
+		} while (false);
+
+		$this->refIndex++;
 
 	} // selectNode()
 
 
-	function selectNodeFromCache() {
+	function selectNodeFromVarCache() {
 		
 		$name = "";
 		if ($this->lvalue != "") $name = $this->lvalue;
@@ -437,7 +462,25 @@ class Renderer {
 
 		$this->node = $this->root->vars[$name]["node"];
 
-	} // selectNodeFromCache()
+	} // selectNodeFromVarCache()
+
+
+	function selectNodeFromRefCache() {
+
+		if (!array_key_exists($this->baseNodeIndex,$this->root->refs)) return;
+		if (!array_key_exists($this->refIndex,$this->root->refs[$this->baseNodeIndex])) return;
+
+		$this->node = $this->root->refs[$this->baseNodeIndex][$this->refIndex];
+
+	} // selectNodeFromRefCache*()
+
+
+	function setRefCache() {
+
+		if ($this->node == null) return;
+		$this->root->refs[$this->baseNodeIndex][$this->refIndex] = $this->node;
+
+	} // setRefCache()
 
 
 	function selectNodeFromDb() {

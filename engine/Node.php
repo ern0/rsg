@@ -1,8 +1,9 @@
 <?php
 class Node {
 
-	function __construct($line) {
+	function __construct($index, $line) {
 
+		$this->index = $index;
 		$this->props = [];
 		$this->procHeader($line);
 		$this->lastTextKey = "text";
@@ -50,7 +51,7 @@ class Node {
 
 	function dump() {
 
-		echo("----\n");
+		echo("---- node $this->index ----\n");
 		foreach ($this->props as $key => $values) {
 			foreach ($values as $index => $value) {
 				$value = str_replace("\r", " ", $value);

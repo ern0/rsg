@@ -79,7 +79,7 @@ Class Text {
 	function processNodeCommand($line) {
 
 		$index = sizeof($this->base->nodes);
-		$this->base->nodes[$index] = new Node($line);
+		$this->base->nodes[$index] = new Node($index, $line);
 		$this->base->lastNode = &$this->base->nodes[$index];
 
 	} // processNodeCommand()
