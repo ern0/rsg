@@ -160,8 +160,6 @@ node tag=nemzeti
 node tag=nemzeti 
 	összmagyar
 node tag=nemzeti 
-	őszmagyar
-node tag=nemzeti 
 	Kárpát-Medencei
 node tag=nemzeti 
 	Közép-Európai
