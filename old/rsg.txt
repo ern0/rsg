@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rsg>
+
+	<item id="main">
+		<alt>
+			Végy egy {i}[mily=milyen/1] [sonka=hus/2]{/i}!
+			A [mily] [sonka] jó étel, jobb mint a
+			[kolbasz=hus]. [_kolbasz/3] csak rosszul leszel,
+			[hiaba].
+
+		</alt>
+		
+		<alt>
+			Végy egy {i}[sonka=hus/2]{/i}!
+			A [sonka] jó étel, jobb mint a
+			[kolbasz=hus]. [_kolbasz/3] csak rosszul leszel.
+		</alt>
+		<alt>
+			Ne egyél semmit, főleg ne [hus/2]!
+		</alt>
+	</item>
+
+	<item id="hus">
+		<alt>
+			sonka|sonkát|sonkától
+		</alt>
+		<alt>
+			csülök|csülköt|csülöktől
+		</alt>
+		<alt>
+			comb|combot|combtól
+		</alt>
+	</item>
+
+	<item id="milyen">
+		<alt>
+			füstölt|megfüstölve
+		</alt>
+		<alt>
+			pácolt|bepácolva
+		</alt>
+		<alt>
+			tormás|agyon tormázva
+		</alt>
+	</item>
+
+	<item id="hiaba">
+		<alt>
+			még ha [mily/1] is
+		</alt>
+		<alt>
+			hiába [mily/1]
+		</alt>
+		<alt>
+			hiába van [mily/2]
+		</alt>
+	</item>
+
+</rsg>

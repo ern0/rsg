@@ -24,8 +24,6 @@
 		$text->load();
 
 		$renderer = new Renderer(null, $text->nodes);
-		$renderer->modCapitalizeFirstLetter = true;
-		$renderer->modSkipFirstWord = true;
 		$renderer->render("@main");
 
 		echoFooter();
