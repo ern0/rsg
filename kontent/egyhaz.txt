@@ -1,0 +1,246 @@
+node id=main
+	#lofasz
+
+node tag=lofasz text=lonaka
+node tag=lofasz text=fasza
+
+node tag=top
+	#nemzeti!c #milyen!c #vallas.t1!c #formacio.t1!c
+node tag=top
+	#nemzeti!c #vallas.t1!c #formacio.t1!c
+node tag=top
+	#nemzeti!c #vallas.t2!c #milyen2!c #formacio.t2!c
+node tag=top
+	#nemzeti!c #vallas.t2!c #formacio.t2!c
+node tag=top
+	#vallas.t1!c #milyen!c #formacio.t1!c
+node tag=top
+	#vallas.t1!c #formacio.t1!c
+node tag=top
+	#milyen!c #vallas.t1!c #nemzeti!c #formacio.t1!c
+node tag=top
+	#vallas.t1!c #nemzeti!c #formacio.t1!c
+node tag=top
+	#vallas.t2!c #milyen2!c #nemzeti!c #formacio.t2!c
+node tag=top
+	#vallas.t2!c #nemzeti!c #formacio.t2!c
+node tag=top
+	#vallas.t1!c #milyen!c #formacio.t1!c
+node tag=top
+	#vallas.t1!c #formacio.t1!c
+
+node tag=milyen 
+	hagyománytisztelő
+node tag=milyen
+	új
+node tag=milyen 
+	tradícionális
+node tag=milyen
+	történelmi
+node tag=milyen 
+	reformer
+node tag=milyen 
+	térítő
+node tag=milyen 
+	zártkörű
+node tag=milyen
+	pénteket megtartó
+node tag=milyen
+	szombatot megtartó
+
+node tag=milyen2
+	#jezus.t1!c #tanitasat!c #koveto!c
+node tag=milyen2
+	#jezus.t2!c #koveto!c
+node tag=milyen2
+	#jezus.t3!c
+
+node tag=jezus tanit=igen
+	t1= Jézus
+	t2= Jézust
+	t3= Jézuskövető
+node tag=jezus tanit=igen
+	t1= Biblia
+	t2= Bibliát
+	t3= Bibliakövető
+node tag=jezus
+	t1= Az Úr Hangja
+	t2= Az Úr hangját
+	t3= Az Úr hangjához hű
+node tag=jezus
+	t1= Nap
+	t2= Napot
+	t3= Napimádó
+node tag=jezus
+	t1= Hold
+	t2= Holdat
+	t3= Holdimádó
+node tag=jezus tanit=igen
+	t1= Földanya
+	t2= Földanyát
+	t3= Földanya-tisztelő
+node tag=jezus tanit=igen
+	t1= A. J. Christian
+	t2= A. J. Christiant
+	t3= A. J. Christian-hívő
+node tag=jezus tanit=igen
+	t1= Orbán Viktor
+	t2= Orbán Viktort
+	t3= Orbánista
+node tag=jezus tanit=igen
+	t1= Gyurcsány Ferenc
+	t2= Gyurcsány Ferencet
+	t3= Gyurcsányista
+node tag=jezus
+	t1= Szentorona
+	t2= Szent Koronát
+	t3= Szent Korona-tisztelő
+
+node tag=tanitasat
+	tanítását
+node tag=tanitasat
+	elveit
+node tag=tanitasat 
+	eszmeiségét
+node tag=tanitasat 
+	szavát
+node tag=tanitasat 
+	dogmáját
+node tag=tanitasat 
+	eszméit
+node tag=tanitasat 
+	útját
+node tag=tanitasat
+	útmutatását
+node tag=tanitasat
+	útmutatásait
+
+node tag=koveto
+	követő
+node tag=koveto
+	valló
+node tag=koveto 
+	elismerő
+node tag=koveto 
+	elfogadó
+node tag=koveto weight=50 
+	tagadó
+node tag=koveto weight=50 
+	megtagadó
+node tag=koveto weight=50
+	üdvözítőnek valló
+node tag=koveto weight=50
+	üdvözítőnek tartó
+node tag=koveto
+	egyedülinek ismerő
+node tag=koveto
+	kétkedve fogadó
+
+node tag=nemzeti 
+	nemzeti
+node tag=nemzeti 
+	magyar
+node tag=nemzeti 
+	magyarországi
+node tag=nemzeti 
+	összmagyar
+node tag=nemzeti 
+	Kárpát-Medencei
+node tag=nemzeti 
+	Közép-Európai
+node tag=nemzeti 
+	jeruzsálemi
+node tag=nemzeti 
+	szentföldi
+node tag=nemzeti 
+	egységes
+node tag=nemzeti 
+	egyesített
+node tag=nemzeti 
+	millenniumi
+node tag=nemzeti 
+	Pán-Európai
+
+node tag=vallas
+	t1= katolikus
+	t2= katolikusok
+node tag=vallas
+	t1= protestáns
+	t2= protestánsok
+node tag=vallas
+	t1= evangélikus
+	t2= evangélikusok
+node tag=vallas
+	t1= református
+	t2= reformátusok
+node tag=vallas
+	t1= unitárius
+	t2= unitáriusok
+node tag=vallas
+	t1= görögkeleti
+	t2= görögkeletiek
+node tag=vallas
+	t1= Saját Vallású
+	t2= Saját Vallásúak
+node tag=vallas
+	t1= Természetimádó
+	t2= Természetimádók
+node tag=vallas
+	t1= Őshitű
+	t2= Őshitűek
+node tag=vallas
+	t1= UFO-hívő
+	t2= UFO-hívők
+node tag=vallas weight=300
+	#mit!c #mondo.t1!c
+node tag=vallas weight=300
+	#mit!c #mondo.t1!c #mit!c #mondo.t2!c
+
+node tag=mit
+	egyistent
+node tag=mit 
+	egyistenhitet
+node tag=mit
+	békét
+node tag=mit 
+	testvériséget
+node tag=mit
+	[tanit=igen].t1!c Tanítását
+	
+node tag=mondo
+	t1= hirdető
+	t2= hirdetők
+node tag=mondo
+	t1= valló
+	t2= vallók
+node tag=mondo
+	t1= kereső
+	t2= keresők
+node tag=mondo
+	t1= kutató
+	t2= kutatók
+
+node tag=formacio
+	t1= közösség
+	t2= közössége
+node tag=formacio
+	t1= egyház
+	t2= egyháza
+node tag=formacio
+	t1= gyülekezet
+	t2= gyülekezete
+node tag=formacio
+	t1= központ
+	t2= központja
+node tag=formacio
+	t1= imaközösség
+	t2= imaközössége
+node tag=formacio
+	t1= imakommandó
+	t2= imakommandója
+node tag=formacio
+	t1= csoport
+	t2= csoportja
+node tag=formacio
+	t1= önálló csoport
+	t2= önálló csoportja

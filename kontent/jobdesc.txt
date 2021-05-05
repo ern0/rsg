@@ -67,7 +67,7 @@ node tag=area short=fullstack
 	fullstack
 node tag=area short=mobile
 	mobile
-node tag=area short=embedded                   weight=99999
+node tag=area short=embedded
 	#embeddedvariant
 node tag=area short=android weight=50
 	Android
