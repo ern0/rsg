@@ -55,6 +55,8 @@
 
 	function echoHeader($font) {
 
+		if ($_GET["plain"]) return;
+
 		header("Content-Type: text/html; charset=utf-8");	
 		
 		echo("<html><head><style>\n");
@@ -65,7 +67,13 @@
 
 
 	function echoFooter() {
-		echo("</body></html>\n");
+
+		if ($_GET["plain"]) {
+			echo("\n");
+		} else {
+			echo("</body></html>\n");
+		}
+	
 	} // echoFooter()
 
 
