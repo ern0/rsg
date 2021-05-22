@@ -1,0 +1,10 @@
+node id=main
+	My favourite color is #color.x.
+
+node tag=color x=black
+	text property, not in use
+node tag=color x=white
+node tag=color x=blue
+node tag=color x=red
+node tag=color x=green
+node tag=color x=yellow

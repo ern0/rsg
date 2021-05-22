@@ -24,7 +24,12 @@
 		$text->load();
 
 		$renderer = new Renderer(null, $text->nodes);
-		$renderer->render("@main");
+		$renderer->isDirectRendering = false;
+		$result = $renderer->render("@main");
+		if ($_GET["plain"]) {
+			$result = str_replace("  ", " ", $result);
+		}
+		echo($result);
 
 		echoFooter();
 

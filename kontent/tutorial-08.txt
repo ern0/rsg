@@ -1,0 +1,39 @@
+node id=main
+
+	For 
+	@purp=#purpose.long, 
+	@lang=[tag=language,purpose=@purp.token]
+	is a bad choice.
+	[tag=language,purpose=@purp.token]
+	is a better
+	@purp.short language.
+
+node tag=purpose token=backend
+	long= backend purposes
+	short= backend
+node tag=purpose token=frontend
+	long= frontend purposes
+	short= frontend
+node tag=purpose token=android
+	long= Android development
+	short= Android
+node tag=purpose token=windows
+	long= Windows development
+	short= Windows
+
+node tag=language purpose=windows
+	Visual Basic
+node tag=language purpose=windows
+	C#
+node tag=language purpose=backend purpose=android
+	Java
+node tag=language purpose=backend
+	Python
+node tag=language purpose=android
+	Kotlin
+node tag=language purpose=backend
+	PHP
+node tag=language purpose=frontend
+	TypeScript
+node tag=language purpose=*
+	Javascript

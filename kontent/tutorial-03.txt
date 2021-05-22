@@ -1,0 +1,51 @@
+node id=main
+	Kitty is a #kind. I love Kitty.
+		
+node tag=kind
+	#size #shade #color #species
+node tag=kind
+	#size #color #species
+node tag=kind
+	#shade #color #species
+node tag=kind
+	#color #species
+node tag=kind
+	#size #species
+
+node tag=size
+	tiny
+node tag=size
+	small
+node tag=size
+	big
+node tag=size
+	huge
+
+node tag=shade
+	light
+node tag=shade
+	dark
+
+node tag=color
+	blue
+node tag=color
+	red
+node tag=color
+	green
+node tag=color
+	yellow
+node tag=color
+	purple
+node tag=color
+	orange
+node tag=color
+	turquoise
+
+node tag=species
+	dog
+node tag=species
+	cat
+node tag=species
+	elephant
+node tag=species
+	snail

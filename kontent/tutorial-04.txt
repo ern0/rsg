@@ -1,0 +1,10 @@
+node id=main
+	Error #blahblah #maybe
+
+node tag=maybe
+	#not_enough
+node tag=maybe
+	#not_enough #not_enough
+	
+node tag=not_enough
+	black

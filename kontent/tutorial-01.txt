@@ -1,0 +1,11 @@
+node id=main
+	My favorite color is #color
+
+node tag=color
+	black
+node tag=color
+	blue
+node tag=color
+	gray
+node tag=shape
+  circle

@@ -1,0 +1,9 @@
+node id=main
+	My favourite color is #color.
+
+node tag=color text=black
+node tag=color text=white
+node tag=color text=blue
+node tag=color text=red
+node tag=color text=green
+node tag=color text=yellow

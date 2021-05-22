@@ -1,0 +1,7 @@
+node id=main
+	@who=#name is a good @who.sex.
+
+node tag=name text=Maria sex=girl
+node tag=name text=Jon sex=boy
+node tag=name text=Robert sex=boy
+node tag=name text=Lisa sex=girl
