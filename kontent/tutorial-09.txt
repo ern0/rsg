@@ -1,0 +1,38 @@
+node id=main
+	@who=#who!h 
+	@what=#what!h
+
+	@who.en!sc + @what.e1: 
+	@who.en!c @what.e2.
+	-
+	@who.de!sc + @what.d1: 
+	@who.de!c @what.d2.
+	
+node tag=who
+	en= the boy
+	de= Der Junge
+node tag=who
+	en= the girl
+	de= Das Mädchen
+node tag=who
+	en= the woman
+	de= Die Frau
+node tag=who
+	en= the man
+	de= Der Mann
+
+node tag=what
+	e1= stand
+	e2= is standing
+	d1= Stand
+	d2= steht
+node tag=what
+	e1= sit
+	e2= is sitting
+	d1= sitzen
+	d2= sitzt
+node tag=what
+	e1= lay
+	e2= lies
+	d1= liegen
+	d2= lügt

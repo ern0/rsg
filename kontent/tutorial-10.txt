@@ -1,0 +1,72 @@
+node id=main
+
+	#place
+
+node tag=place weight=40
+	I am a #sex
+	living in Europe,
+	I have [tag=phone,%eu]
+	and
+	[tag=car,%eu]
+node tag=place weight=50
+	I am a #sex
+	living in USA,
+	I have [tag=phone,%usa]
+	and
+	[tag=car,%usa]
+node tag=place weight=20
+	I am a #sex
+	living in Dubai,
+	I have [tag=phone,%dubai]
+	and
+	[tag=car,%dubai]
+
+node tag=sex weight=49 text=man
+node tag=sex weight=51 text=woman
+
+node tag=phone
+	iPhone
+	eu= 20
+	usa= 50
+	dubai= 95
+node tag=phone
+	Android smartphone
+	eu= 80
+	usa= 50
+	dubai= 5
+
+node tag=car
+	Opel
+	usa= 0
+	dubai= 0
+node tag=car
+	Ford
+	dubai= 1
+node tag=car
+	Chrysler
+	eu= 20
+	dubai= 1
+node tag=car
+	Chevrolet
+	usa= 150
+	dubai= 1
+node tag=car
+	Mercedes
+	usa= 30
+	dubai= 5
+node tag=car
+	Tesla
+	eu= 10
+	usa= 10
+node tag=car
+	Fiat
+	dubai= 0
+	usa= 0
+node tag=car
+	Ferrari
+	usa= 1
+	eu= 2
+node tag=car
+	Lamborghini
+	usa= 1
+	eu= 2

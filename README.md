@@ -1,6 +1,8 @@
 # RSG - Random Sentence Generator
 
+
 ## Foreword
+
 
 ### Mission
 
@@ -22,6 +24,7 @@ Hungarian language, because
 it's so complicated, that
 other languages will also work then.
 
+
 ### You are the author
 
 If you want to write a good program,
@@ -33,7 +36,9 @@ Good quality result requires
 
 RSG is not an easy genre.
 
+
 ## Integrator's manual
+
 
 ### Add to your program
 
@@ -49,6 +54,7 @@ you can change the last line to these:
 
 	$renderer->isDirectRendering = false;
 	$result = $renderer->render("@main");
+
 
 ### Tests
 
@@ -68,6 +74,7 @@ The result should be like:
 
 	[okay] - RsgSuite - cases: 13, passed: 13, failed: 0, asserts: 146, passed: 146, failed: 0
 
+
 ### Web server requirements
 
 I've tested it with Apache2.
@@ -79,6 +86,7 @@ to install it on a Debian system,
 run this command:
 
 	sudo apt install php-mbstring
+
 
 ### Dev server
 
@@ -92,6 +100,7 @@ Then you can point your browser to
 `localhost:8080`, 
 and select RSG script from the menu.
 
+
 ## RSG author's manual
 
 This chapter contains tutorials,
@@ -101,6 +110,10 @@ You will able to write funny scripts
 after the first lession, but
 it's worth to go on and 
 use advanced features.
+
+You can found all the examples in the repository,
+and also you can try them at:
+http://linkbroker.hu/stuff/rsg/
 
 
 ### Tutor-1: Nodes and tags
@@ -388,7 +401,7 @@ is not used for black.
 
 Using variables makes the generated text 
 more natural.
-Combining them with using different properties
+Combining them with different properties
 is a killer feature.
 
 	node id=main
@@ -434,6 +447,17 @@ it will be rendered in a special fashion:
 all its references will choose the very same node
 which were selected first time.*
 
+If the referenced variable is not set,
+the engine will select the node,
+which has `id` property with the specified value.
+It can be used as fallback 
+if a variable setter is uncertainly selected,
+or if you just want to use a shortcut for a
+frequently used text.
+Also, from the user program, 
+the engine should be called with a root reference,
+which is `"@main"` by default.
+
 
 ### Tutor-8: Advanced search
 
@@ -443,7 +467,7 @@ even using variables as search values.
 For a node, multiple values can be defined
 for the same property (see Android),
 or you can use asterisk 
-for getting selected for 
+for getting potentially selected for 
 any search value for the property
 (see Javascript).
 
@@ -497,3 +521,242 @@ Some results:
 	• For frontend purposes, TypeScript is a bad choice. Javascript is a better frontend language.
 	• For frontend purposes, TypeScript is a bad choice. Javascript is a better frontend language.
 	• For Android development, Java is a bad choice. Javascript is a better Android language.
+
+
+### Tutor-9: Decorators
+
+There are three decorators,
+they alter only the rendering.
+
+* Hide ("h"): the node will be 
+not rendered at all. 
+It's a good practice to set variables
+silently at the beginning of the script.
+* Capitalize ("c"): capitlizes the first letter
+of the word. 
+It's useful for sentence beginnings.
+* Skip first word ("s"): omits rendering of
+first word of the node.
+Designed to hide the article,
+if it's not needed.
+It's very useful 
+for languages with more form
+of article (German, Slavic languages).
+
+	node id=main
+		@who=#who!h 
+		@what=#what!h
+
+		@who.en!sc + @what.e1: 
+		@who.en!c @what.e2.
+		-
+		@who.de!sc + @what.d1: 
+		@who.de!c @what.d2.
+		
+	node tag=who
+		en= the boy
+		de= Der Junge
+	node tag=who
+		en= the girl
+		de= Das Mädchen
+	node tag=who
+		en= the woman
+		de= Die Frau
+	node tag=who
+		en= the man
+		de= Der Mann
+
+	node tag=what
+		e1= stand
+		e2= is standing
+		d1= Stand
+		d2= steht
+	node tag=what
+		e1= sit
+		e2= is sitting
+		d1= sitzen
+		d2= sitzt
+	node tag=what
+		e1= lay
+		e2= lies
+		d1= liegen
+		d2= lügt
+
+There're some results:
+
+	• Girl + lay: The girl lies. -  Mädchen + liegen: Das Mädchen lügt.
+	• Boy + sit: The boy is sitting. -  Junge + sitzen: Der Junge sitzt.
+	• Boy + lay: The boy lies. -  Junge + liegen: Der Junge lügt.
+	• Man + sit: The man is sitting. -  Mann + sitzen: Der Mann sitzt.
+	• Woman + lay: The woman lies. -  Frau + liegen: Die Frau lügt.
+	• Girl + stand: The girl is standing. -  Mädchen + Stand: Das Mädchen steht.
+	• Girl + stand: The girl is standing. -  Mädchen + Stand: Das Mädchen steht.
+	• Girl + lay: The girl lies. -  Mädchen + liegen: Das Mädchen lügt.
+
+
+### Tutor-10: Weight
+
+By default, every node has a `weight` property
+with value of 100. 
+You can define weight value for any node,
+so you can influence the choice.
+It a weight is zero, it will be never selected.
+
+In a reference,
+you can also choose,
+which tag is used for weighting.
+If a node of the result set
+has no such property, 
+it will be counted as 100.
+
+	node id=main
+
+		#place
+
+	node tag=place weight=40
+		I am a #sex
+		living in Europe,
+		I have [tag=phone,%eu]
+		and
+		[tag=car,%eu]
+	node tag=place weight=50
+		I am a #sex
+		living in USA,
+		I have [tag=phone,%usa]
+		and
+		[tag=car,%usa]
+	node tag=place weight=20
+		I am a #sex
+		living in Dubai,
+		I have [tag=phone,%dubai]
+		and
+		[tag=car,%dubai]
+
+	node tag=sex weight=49 text=man
+	node tag=sex weight=51 text=woman
+
+	node tag=phone
+		iPhone
+		eu= 20
+		usa= 50
+		dubai= 95
+	node tag=phone
+		Android smartphone
+		eu= 80
+		usa= 50
+		dubai= 5
+
+	node tag=car
+		Opel
+		usa= 0
+		dubai= 0
+	node tag=car
+		Ford
+		dubai= 1
+	node tag=car
+		Chrysler
+		eu= 20
+		dubai= 1
+	node tag=car
+		Chevrolet
+		usa= 150
+		dubai= 1
+	node tag=car
+		Mercedes
+		usa= 30
+		dubai= 5
+	node tag=car
+		Tesla
+		eu= 10
+		usa= 10
+	node tag=car
+		Fiat
+		dubai= 0
+		usa= 0
+	node tag=car
+		Ferrari
+		usa= 1
+		eu= 2
+	node tag=car
+		Lamborghini
+		usa= 1
+		eu= 2
+
+There're some results:
+
+	• I am a man living in USA, I have iPhone and Chevrolet
+	• I am a man living in Europe, I have Android smartphone and Fiat
+	• I am a man living in USA, I have Android smartphone and Ford
+	• I am a woman living in Dubai, I have iPhone and Tesla
+	• I am a woman living in Dubai, I have iPhone and Lamborghini
+	• I am a man living in Europe, I have iPhone and Opel
+	• I am a woman living in Europe, I have Android smartphone and Mercedes
+	• I am a woman living in Europe, I have Android smartphone and Chevrolet
+
+### Include, comment
+
+Any special character at first column 
+can be used as comment.
+
+Include commands should be anywhere in the script.
+It's a good idea to split up big projects to 
+more files, or build general-purpose includes.
+
+	---- include example ---------
+	node id=main
+		Look, mom, a #color #shape!
+
+	include shape.inc
+	include color.inc
+	------------------------------
+
+Some results:
+
+	• Look, mom, a green paralellogram!
+	• Look, mom, a yellow rectangle!
+	• Look, mom, a purple square!
+	• Look, mom, a white paralellogram!
+	• Look, mom, a black triangle!
+	• Look, mom, a green paralellogram!
+	• Look, mom, a cyan rectangle!
+	• Look, mom, a gray rhombus!
+
+### Summary
+
+* The script consist of nodes, nodes have properties with key and value
+* The engine starts at the node with `id=main`
+* The engine renders the `text` property by default
+* Node syntax is: `node key=value`
+* The text property can be defined as lines starting with whitespace
+* Longer properties can be defined such, but first word must be the name of the property, e.g. `key=`, then a space followed by value
+* When the rendering engine is reaching a reference, it selects a node, and renders it
+* Full syntax of reference: @var=[key1=value1,key2=value2,%weightkey].prop!hsc
+* Short syntax: @id.prop!hsc or #tag.prop.hsc
+* Decorators are: Hide, Skip-first-word and Capitalize 
+
+
+## Politics
+
+
+### Known issues
+
+Nothing serious, probably all issues fall to 
+the "won't fix" category.
+
+* In the full reference, 
+only constant weight keys are allowed,
+variables should be used
+* Circular references are not handled, 
+PHP will die with stack overflow error
+* Line numbers should be added to error messages
+* The program is designed to render the result on-the-fly, so no post-processing applied on the result text. This led to the minor bug that the renderer sometimes adds extra spaces between words at references. Did not fixed, it's not important for HTML
+* References should be surrounded by spaces,
+with some exception, e.g. end-of-sentence punctation works
+* The program is originally designed to be easily rewritten to C or C++, e.g. render on-the-fly, easy-to-parse format etc. I gave up this slowly, at last at the point, when I recognized that variables should not only contain a reference to a node, but all subsequent choices should be preserved in order to render the same text when the node is re-selected by a variable.
+
+
+### Project future
+
+
+A C or C++ implementation for embedded devices
+(e.g. no memory allocation etc.) would be cool.

@@ -1,0 +1,7 @@
+---- include example ---------
+node id=main
+	Look, mom, a #color #shape!
+
+include shape.inc
+include color.inc
+------------------------------
