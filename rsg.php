@@ -41,17 +41,32 @@
 		echoHeader("monospace");
 		echo("select file: <br/>");
 
+		$a = [];
 		$dir = dir(getcwd() . "/kontent");
 		while (($file = $dir->read()) !== false) {
 			if (!strstr($file,".txt")) continue;
-			echo("&nbsp;<a href=\"");
-			echo("rsg.php?text=");
-			echo($file);
-			echo("\">");
-			echo("$file");
-			echo("</a><br/>");
+
+			$a[] = (
+				"&nbsp;&nbsp;<a href=\""
+				. "rsg.php?text=" 
+				. $file
+				. "\">"
+				. "$file"
+				. "</a>"
+				. "&nbsp;-&nbsp;"
+				. "<a href=\""
+				. "kontent/" . $file
+				. "\">"
+				. "(source)"
+				. "</a>"
+				. "<br/>"
+			);
+
 		}
 		$dir->close();
+
+		sort($a);
+		foreach ($a as $x) echo($x);
 
 		echoFooter();
 
